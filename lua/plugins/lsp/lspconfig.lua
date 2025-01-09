@@ -27,7 +27,7 @@ return {
 
     -- Automatically install LSPs and related tools to stdpath for neovim
     -- 'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
+    -- 'williamboman/mason-lspconfig.nvim',
     -- 'WhoIsSethDaniel/mason-tool-installer.nvim',
   },
   config = function()
@@ -106,7 +106,6 @@ return {
       --   end
       -- end)
 
-
       -- https://github.com/elixir-lsp/elixir-ls
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
       elixirls = function()
@@ -115,7 +114,7 @@ return {
           cmd = { '/Users/scrub/.local/share/nvim/mason/bin/elixir-ls' },
           settings = {
             elixirLS = {
-              dialyzerEnabled = false,
+              dialyzerEnabled = true,
               enableTestLenses = false,
               fetchDeps = false,
               suggestSpecs = true,

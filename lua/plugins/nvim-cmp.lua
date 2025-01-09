@@ -50,7 +50,8 @@ return {
     -- https://github.com/hrsh7th/nvim-cmp
     cmp.setup({
       completion = {
-        completeopt = 'menu,menuone,preview,noinsert,noselect',
+        -- completeopt = 'menu,menuone,preview,noinsert,noselect',
+        completeopt = 'menuone,preview,noinsert,noselect',
       },
       performance = {
         max_view_entries = 25,
@@ -163,8 +164,10 @@ return {
       -- matching = { disallow_symbol_nonprefix_matching = false },
     })
 
+    vim.cmd [[highlight! default link CmpItemKind CmpItemMenuDefault]]
+
     vim.diagnostic.config({
-      signs = false,
+      signs = true,
       underline = true,
       virtual_text = true,
       float = {

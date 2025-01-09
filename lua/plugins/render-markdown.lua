@@ -8,14 +8,15 @@ return {
     'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons',
   },
-  ft = 'markdown',
+  event = 'VeryLazy',
+  cond = false,
   config = function()
     require('render-markdown').setup({
+      sign = { enabled = false },
       heading = {
         -- icons = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
         icons = { '󰉫 ', '󰉬 ', '󰉭 ', '󰉮 ', '󰉯 ', '󰉰 ' },
-        -- signs = { '󰫎 ' },
-        signs = { ' ' },
+        signs = { '󰫎 ' },
         backgrounds = {
           'RenderMarkdownH1Bg',
           'RenderMarkdownH2Bg',

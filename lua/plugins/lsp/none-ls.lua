@@ -17,7 +17,7 @@ return {
         -- null_ls.builtins.completion.proselint,
         -- null_ls.builtins.diagnostics.write_good,
         -- null_ls.builtins.formatting.markdownlint,
-        -- null_ls.builtins.formatting.mix,
+        null_ls.builtins.formatting.mix,
         -- null_ls.builtins.diagnostics.credo,
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.prettierd,

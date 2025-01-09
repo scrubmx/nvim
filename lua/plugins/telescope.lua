@@ -24,21 +24,28 @@ return {
     -- https://github.com/nvim-telescope/telescope.nvim#default-mappings
     --
     -- TODO: Make sure ripgrep is being used for `live_grep`
-    -- https://github.com/nvim-telescope/telescope.nvim/issues/2924#issuecomment-1950667113
+    --   https://github.com/nvim-telescope/telescope.nvim/issues/2924#issuecomment-1950667113
+    -- TODO: Evaluate implementing smart_history extension
+    --   https://github.com/nvim-telescope/telescope-smart-history.nvim
     --
     -- TIP: `:Telescope builtin` to explore all available commands
     { '<Leader>ff', '<Cmd>Telescope find_files<CR>' },
-    { '<Leader>fa', '<Cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>',                     desc = 'Telescope find_all' },
+    { '<Leader>fa', '<Cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>', desc = 'Telescope find_all' },
     { '<Leader>fb', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>' },
     { '<Leader>fi', '<Cmd>Telescope current_buffer_fuzzy_find<CR>' },
     { '<Leader>fw', '<Cmd>Telescope lsp_workspace_symbols<CR>' },
     { '<Leader>fy', '<Cmd>Telescope lsp_document_symbols<CR>' },
-    { '<Leader>fd', function() require('telescope.builtin').diagnostics() end,                                  desc = 'Telescope diagnostics' },
-    { '<Leader>fg', function() require('telescope.builtin').live_grep() end,                                    desc = 'Telescope live_grep' },
-    { '<Leader>fh', function() require('telescope.builtin').help_tags() end,                                    desc = 'Telescope help_tags' },
-    { '<Leader>fo', function() require('telescope.builtin').buffers() end,                                      desc = 'Telescope buffers' },
-    { '<Leader>fr', function() require('telescope.builtin').oldfiles() end,                                     desc = 'Telescope oldfiles' },
-    { '<Leader>fs', function() require('telescope.builtin').spell_suggest() end,                                desc = 'Telescope spell_suggest' },
+    { '<Leader>fd', '<Cmd>Telescope diagnostics<CR>' },
+    { '<Leader>fg', '<Cmd>Telescope live_grep<CR>' },
+    { '<Leader>fh', '<Cmd>Telescope help_tags<CR>' },
+    { '<Leader>fr', '<Cmd>Telescope oldfiles<CR>' },
+    { '<Leader>fs', '<Cmd>Telescope spell_suggest<CR>' },
+    -- { '<Leader>fd', function() require('telescope.builtin').diagnostics() end, desc = 'Telescope diagnostics' },
+    -- { '<Leader>fg', function() require('telescope.builtin').live_grep() end, desc = 'Telescope live_grep' },
+    -- { '<Leader>fh', function() require('telescope.builtin').help_tags() end, desc = 'Telescope help_tags' },
+    -- { '<Leader>fr', function() require('telescope.builtin').oldfiles() end, desc = 'Telescope oldfiles' },
+    -- { '<Leader>fs', function() require('telescope.builtin').spell_suggest() end, desc = 'Telescope spell_suggest' },
+    { '<Leader>fo', function() require('telescope.builtin').buffers() end, desc = 'Telescope buffers' },
     { '<Leader>fv', function() require('telescope.builtin').find_files({ cwd = vim.fn.stdpath('config') }) end, desc = 'Telescope nvim_config_files' },
   },
   config = function()
@@ -57,10 +64,6 @@ return {
         path_display = { 'smart' },
         selection_strategy = 'reset',
         sorting_strategy = 'ascending',
-        -- file_previewer = require('telescope.previewers').vim_buffer_cat.new,
-        -- grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
-        -- qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
-        -- buffer_previewer_maker = require('telescope.previewers').buffer_previewer_maker,
         preview = { filesize_limit = 25 }, -- Megabytes
         layout_config = {
           horizontal = { prompt_position = 'top', preview_width = 0.54, results_width = 0.8 },
@@ -75,10 +78,13 @@ return {
           '.idea',
           '.next',
           '.vscode',
-          'bootstrap',
-          'node_modules',
-          'public',
-          'storage',
+          'bootstrap/cache/',
+          'node_modules/',
+          'public/css/',
+          'public/js/',
+          'storage/app/',
+          'storage/debugbar/',
+          'storage/framework/',
         },
         -- https://github.com/nvim-telescope/telescope-file-browser.nvim#mappings
         mappings = {
@@ -165,8 +171,8 @@ return {
         -- FZF sorter for telescope written in c
         -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
         fzf = {
-          case_mode = 'smart_case',
           fuzzy = true,
+          case_mode = 'ignore_case', -- (ignore_case|respect_case|smart_case)
           override_file_sorter = true,
           override_generic_sorter = true,
         },
