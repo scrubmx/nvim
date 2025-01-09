@@ -1,0 +1,82 @@
+vim.g.mapleader = ','
+vim.g.maplocalleader = ','
+
+vim.opt.title = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.showmode = false
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
+
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
+vim.opt.showmatch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- vim.opt.colorcolumn = '120'
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.shiftround = true
+vim.opt.smartindent = true
+vim.opt.autoindent = true
+vim.opt.copyindent = true
+vim.opt.wrap = false
+
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+vim.opt.scrolloff = 6
+vim.opt.sidescrolloff = 6
+vim.opt.sidescroll = 6
+vim.opt.mousescroll = 'ver:3,hor:0'
+
+vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+-- Configuration for nvim-ufo
+vim.opt.foldcolumn = '0' -- Using ufo provider this prevents showing weird characters on the left
+vim.opt.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- vim.opt.foldlevel = 10
+
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.undofile = true
+vim.opt.undodir = vim.fn.stdpath('config') .. '/undodir'
+vim.opt.wildignore = { '*/cache/*', '*/tmp/*' }
+
+vim.opt.list = true
+vim.opt.listchars = { trail = '·', tab = '➞ ', extends = '◣', precedes = '◢', nbsp = '○' } -- space = '·', eol = '󰘌'
+
+vim.opt.termguicolors = true
+vim.opt.background = 'dark'
+vim.opt.signcolumn = 'yes' -- 'auto:4'
+-- vim.opt.lazyredraw = true -- This doesn't work with noice plugin
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+
+-- vim.opt.spelllang = { 'en_us', 'es' }
+-- vim.opt.spell = true
+
+-- filetypes
+vim.filetype.add({
+  pattern = {
+    ['.*%.blade%.php'] = 'blade',
+  },
+})
+
+-- To use fzf in Neovim, add the following line to your init.lua
+vim.opt.rtp:append('/usr/local/opt/fzf')
+
+vim.loader.enable()
+
+require('config.lazy')
+require('config.autocmds')
+require('config.keymaps')

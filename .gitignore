@@ -1,0 +1,6 @@
+/undodir
+/spell
+.DS_Store
+.luarc.json
+lazy-lock.json
+*.log

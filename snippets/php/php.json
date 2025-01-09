@@ -1,0 +1,73 @@
+{
+  "function __construct": {
+    "prefix": "con",
+    "body": ["public function __construct(${1: priarg}) {", "}"],
+    "description": "Create __construct method using the last php syntax."
+  },
+  "public function …": {
+    "prefix": "met",
+    "body": ["public function ${1:name}(${2:args})", "{", "\t$0", "}"],
+    "description": "Public class method"
+  },
+  "phpunit test …": {
+    "prefix": "@test",
+    "body": [
+      "/** @test */",
+      "public function ${1:it_}(): void",
+      "{",
+      "\t$0",
+      "}"
+    ],
+    "description": "PHPUnit test method"
+  },
+  "foreach …": {
+    "prefix": "foreach",
+    "body": [
+      "foreach (\\$${1:variable} as \\$${2:key} ${3:=> \\$${4:value}}) {",
+      "\t${0:# code...}",
+      "}"
+    ],
+    "description": "Foreach loop"
+  },
+  "switch …": {
+    "prefix": "switch",
+    "body": [
+      "switch (\\$${1:variable}) {",
+      "\tcase '${2:value}':",
+      "\t\t${3:# code...}",
+      "\t\tbreak;",
+      "\t$0",
+      "\tdefault:",
+      "\t\t${4:# code...}",
+      "\t\tbreak;",
+      "}"
+    ],
+    "description": "Switch block"
+  },
+  "case …": {
+    "prefix": "case",
+    "body": ["case '${1:value}':", "\t${0:# code...}", "\tbreak;"],
+    "description": "Case Block"
+  },
+  "$this->…": {
+    "prefix": "this",
+    "body": "\\$this->$0;",
+    "description": "$this->..."
+  },
+  "Try Catch Block": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${1://code...}",
+      "} catch (${2:\\Throwable} ${3:\\$th}) {",
+      "\t${4://throw \\$th;}",
+      "}"
+    ],
+    "description": "Try catch block"
+  },
+  "enum …": {
+    "prefix": "enum",
+    "body": ["enum ${1:EnumName}", "{", "\tcase $0;", "}", ""],
+    "description": "Enum definition"
+  }
+}
