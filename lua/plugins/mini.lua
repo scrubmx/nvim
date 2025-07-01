@@ -33,7 +33,7 @@ return {
     'echasnovski/mini.move',
     version = '*',
     event = 'VeryLazy',
-    cond = false, -- Don't load this plugin as Ctrl + Cmd is not working...
+    cond = false, -- INFO: Don't load this plugin as Ctrl + Cmd is not working...
     opts = {
       options = {
         -- Automatically reindent selection during linewise vertical move
@@ -41,16 +41,16 @@ return {
       },
       mappings = {
         -- Move visual selection in Visual mode.(Ctrl + Cmd + hjkl)
-        left = '<C-M-h>',
-        right = '<C-M-l>',
-        down = '<C-M-j>',
-        up = '<C-M-k>',
+        left = '<C-A-h>',
+        right = '<C-A-l>',
+        down = '<C-A-j>',
+        up = '<C-A-k>',
 
         -- Move current line in Normal mode
-        line_left = '<C-M-h>',
-        line_right = '<C-M-l>',
-        line_down = '<C-M-j>',
-        line_up = '<C-M-k>',
+        line_left = '<C-A-h>',
+        line_right = '<C-A-l>',
+        line_down = '<C-A-j>',
+        line_up = '<C-A-k>',
       },
     },
   },
@@ -81,7 +81,7 @@ return {
   {
     'echasnovski/mini.surround',
     version = '*',
-    event = 'VeryLazy',
+    event = "VeryLazy",
     opts = {
       -- Add custom surroundings to be used on top of builtin ones. For more
       -- information with examples, see `:h MiniSurround.config`.

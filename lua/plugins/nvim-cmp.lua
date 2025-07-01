@@ -4,6 +4,7 @@
 return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
+  priority = 50,
   dependencies = {
     -- Autocompletion
     'hrsh7th/cmp-path',
@@ -12,7 +13,18 @@ return {
     'hrsh7th/cmp-nvim-lua',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-nvim-lsp-signature-help',
+    'hrsh7th/cmp-nvim-lsp-document-symbol',
     -- 'lukas-reineke/cmp-under-comparator', -- Better sort underscore items
+
+    -- Lua plugin to turn github copilot into a cmp source
+    -- https://github.com/zbirenbaum/copilot-cmp
+    {
+      'zbirenbaum/copilot-cmp',
+      priority = 70,
+      dependencies = { 'zbirenbaum/copilot.lua' },
+      name = 'copilot_cmp',
+      opts = { fix_pairs = true },
+    },
 
     -- Snippets
     { 'L3MON4D3/LuaSnip', version = 'v2.*', run = 'make install_jsregexp' },
@@ -50,8 +62,8 @@ return {
     -- https://github.com/hrsh7th/nvim-cmp
     cmp.setup({
       completion = {
-        -- completeopt = 'menu,menuone,preview,noinsert,noselect',
-        completeopt = 'menuone,preview,noinsert,noselect',
+        completeopt = 'menu,menuone,preview,noinsert,noselect',
+        -- completeopt = 'menuone,preview,noinsert,noselect',
       },
       performance = {
         max_view_entries = 25,
@@ -62,23 +74,27 @@ return {
         end,
       },
       sources = {
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lsp_signature_help' },
-        { name = 'luasnip' },
-        { name = 'nvim_lua' },
-        { name = 'buffer' },
-        { name = 'path' },
+        { name = 'copilot', priority = 1, max_item_count = 4 },
+        { name = 'supermaven', priority = 2, max_item_count = 4 },
+        { name = 'nvim_lsp', priority = 3 },
+        { name = 'nvim_lsp_signature_help', priority = 3 },
+        { name = 'luasnip', priority = 4 },
+        { name = 'nvim_lua', priority = 5 },
+        { name = 'buffer', priority = 5 },
+        { name = 'path', priority = 5 },
       },
       window = {
         completion = cmp.config.window.bordered({
           border = 'rounded',
           winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
-          col_offset = -2,  -- Offsets the completion window relative to the cursor
+          col_offset = -2, -- Offsets the completion window relative to the cursor
           side_padding = 1, -- The padding to add to the completion window sides
         }),
         documentation = cmp.config.window.bordered({
           border = 'rounded',
-          winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
+          -- winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
+          winhighlight = 'Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None',
+          -- winhighlight = 'Normal:Normal,FloatBorder:BorderBG,CursorLine:PmenuSel,Search:None',
         }),
       },
       formatting = {
@@ -89,7 +105,7 @@ return {
         -- TODO: https://www.reddit.com/r/neovim/comments/103zetf/how_can_i_get_a_vscodelike_tailwind_css
         -- TODO: https://github.com/roobert/tailwindcss-colorizer-cmp.nvim
         format = lspkind.cmp_format({
-          mode = 'symbol_text',     -- Options: 'text', 'text_symbol', 'symbol', 'symbol_text'
+          mode = 'symbol_text', -- Options: 'text', 'text_symbol', 'symbol', 'symbol_text'
           show_labelDetails = true, -- Show labelDetails in menu. Disabled by default
           menu = {
             nvim_lsp = '[LSP]',
@@ -145,6 +161,9 @@ return {
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmp.mapping.preset.cmdline(),
       sources = {
+        { name = 'nvim_lsp_document_symbol' }, -- <Cmd>/@ to trigger the completion
+      },
+      {
         { name = 'buffer' },
       },
     })
@@ -162,20 +181,6 @@ return {
         },
       }),
       -- matching = { disallow_symbol_nonprefix_matching = false },
-    })
-
-    vim.cmd [[highlight! default link CmpItemKind CmpItemMenuDefault]]
-
-    vim.diagnostic.config({
-      signs = true,
-      underline = true,
-      virtual_text = true,
-      float = {
-        source = false,
-        focusable = false,
-        show_header = true,
-        border = 'rounded',
-      },
     })
   end,
 }

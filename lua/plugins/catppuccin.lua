@@ -6,24 +6,24 @@
 -- https://catppuccin.com/palette
 return {
   'catppuccin/nvim',
-  name = 'catppuccin',
   lazy = false,
+  name = 'catppuccin',
   priority = 1000,
   config = function()
     require('catppuccin').setup({
-      transparent_background = true,
       default_integrations = true,
+      transparent_background = true,
       -- List of supported plugins and their corresponding integration module
       -- https://github.com/catppuccin/nvim#integrations
       integrations = {
         -- diffview = true,
         -- neotest = true,
         -- noice = true,
-        -- render_markdown = true,
         -- ufo = true,
         cmp = true,
         gitsigns = true,
         harpoon = true,
+        indent_blankline = { enabled = true },
         markdown = true,
         mason = true,
         mini = {
@@ -32,9 +32,9 @@ return {
         },
         neotree = true,
         notify = true,
-        treesitter = true,
+        render_markdown = true,
         telescope = { enabled = true },
-        indent_blankline = { enabled = true },
+        treesitter = true,
         which_key = true,
       },
     })

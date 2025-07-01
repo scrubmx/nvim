@@ -1,34 +1,26 @@
 -- Quickstart configs for Nvim LSP
 -- https://github.com/neovim/nvim-lspconfig
 -- https://youtu.be/6pAG3BHurdM?si=mK3TD6qWHDP8Tv2W&t=3653
+--
+-- TODO: Checkout https://github.com/SylvanFranklin/.config/blob/main/nvim/lua/sylvanfranklin/plugins/lsp.lua
 return {
   'neovim/nvim-lspconfig',
+  tag = 'v1.8.0',
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'folke/neodev.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    -- 'hrsh7th/cmp-buffer',
-    -- 'hrsh7th/cmp-cmdline',
-    -- 'hrsh7th/cmp-nvim-lua', ?
-    -- 'hrsh7th/cmp-nvim-lsp-signature-help', ?
-    -- 'saadparwaiz1/cmp_luasnip', ?
-    -- 'hrsh7th/cmp-path',
-    -- {
-    --   'folke/lazydev.nvim',
-    --   ft = 'lua',
-    --   opts = {
-    --     library = {
-    --       -- See the configuration section for more details
-    --       -- Load luvit types when the `vim.uv` word is found
-    --       { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-    --     },
-    --   },
-    -- },
-
-    -- Automatically install LSPs and related tools to stdpath for neovim
-    -- 'williamboman/mason.nvim',
-    -- 'williamboman/mason-lspconfig.nvim',
-    -- 'WhoIsSethDaniel/mason-tool-installer.nvim',
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+      opts = {
+        library = {
+          -- See the configuration section for more details
+          -- Load luvit types when the `vim.uv` word is found
+          { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        },
+      },
+    },
   },
   config = function()
     local lspconfig = require('lspconfig')
@@ -36,47 +28,82 @@ return {
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('LspConfigGroup', { clear = true }),
       callback = function(event)
+        local map = vim.keymap.set
+        local merge = function(table, extra)
+          return vim.tbl_extend('keep', table, extra)
+        end
+
         -- Buffer local keymaps
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local bufopts = { buffer = event.buf, silent = true, noremap = true }
 
-        -- vim.keymap.set('n', 'gR', '<Cmd>Telescope lsp_references<CR>', bufopts)
-        -- vim.keymap.set('n', 'gd', '<Cmd>Telescope lsp_definitions<CR>', bufopts)
-        -- vim.keymap.set('n', 'gi', '<Cmd>Telescope lsp_implementations<CR>', bufopts)
-        -- vim.keymap.set('n', 'gt', '<Cmd>Telescope lsp_type_definitions<CR>', bufopts)
-        -- vim.keymap.set('n', '<Leader>D', '<Cmd>Telescope diagnostics bufnr=0<CR>', bufopts)
-        -- vim.keymap.set('n', '<Leader>d', vim.diagnostics.open_float, bufopts)
+        --[[
+        Telescope LSP features:
+          - Telescope lsp_definitions
+          - Telescope lsp_document_symbols
+          - Telescope lsp_dynamic_workspace_symbols
+          - Telescope lsp_implementations
+          - Telescope lsp_incoming_calls
+          - Telescope lsp_outgoing_calls
+          - Telescope lsp_references
+          - Telescope lsp_type_definitions
+          - Telescope lsp_workspace_symbols
 
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Jump to declaration' }))
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Jump to definition' }))
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP List all references' }))
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Display information about the symbol' }))
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Display signature information' }))
-        vim.keymap.set('n', '<Space>r', vim.lsp.buf.rename,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Rename all symbol references' }))
-        vim.keymap.set('n', '<Space>f', function() vim.lsp.buf.format({ async = true }) end,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Format the current buffer' }))
-        vim.keymap.set({ 'n', 'v' }, '<Space>a', vim.lsp.buf.code_action,
-          vim.tbl_extend('keep', bufopts, { desc = 'LSP Display code actions menu' }))
+        Nvim LSP features:
+          - vim.lsp.buf.hover()
+          - vim.lsp.buf.format()
+          - vim.lsp.buf.rename()
+          - vim.lsp.buf.completion()
+          - vim.lsp.buf.definition()
+          - vim.lsp.buf.formatting()
+          - vim.lsp.buf.references()
+          - vim.lsp.buf.code_action()
+          - vim.lsp.buf.declaration()
+          - vim.lsp.buf.server_ready()
+          - vim.lsp.buf.typehierarchy()
+          - vim.lsp.buf.incoming_calls()
+          - vim.lsp.buf.outgoing_calls()
+          - vim.lsp.buf.signature_help()
+          - vim.lsp.buf.implementation()
+          - vim.lsp.buf.document_symbol()
+          - vim.lsp.buf.execute_command()
+          - vim.lsp.buf.formatting_sync()
+          - vim.lsp.buf.type_definition()
+          - vim.lsp.buf.clear_references()
+          - vim.lsp.buf.range_formatting()
+          - vim.lsp.buf.workspace_symbol()
+          - vim.lsp.buf.range_code_action()
+          - vim.lsp.buf.document_highlight()
+          - vim.lsp.buf.add_workspace_folder()
+        --]]
+        map('n', 'gr', vim.lsp.buf.rename, merge(bufopts, { desc = 'LSP Rename all symbol references' }))
+        map('n', 'gd', vim.lsp.buf.definition, merge(bufopts, { desc = 'LSP Jump to symbol definition' }))
+        map('n', 'K', vim.lsp.buf.hover, merge(bufopts, { desc = 'LSP Display symbol information' }))
+        map('n', '<C-k>', vim.lsp.buf.signature_help, merge(bufopts, { desc = 'LSP Display signature information' }))
+        map('n', '<Space>f', function()
+          vim.lsp.buf.format({ async = true })
+        end, merge(bufopts, { desc = 'LSP Format the current buffer' }))
+        map(
+          { 'n', 'v' },
+          '<Space>a',
+          vim.lsp.buf.code_action,
+          merge(bufopts, { desc = 'LSP Display code actions menu' })
+        )
+        map('n', '<Space>d', '<Cmd>Telescope lsp_definitions<CR>', bufopts)
+        map('n', '<Space>r', '<Cmd>Telescope lsp_references<CR>', bufopts)
+        map('n', '<Space>s', '<Cmd>Telescope lsp_document_symbols<CR>', bufopts)
+        map('n', '<Space>S', '<Cmd>Telescope lsp_workspace_symbols<CR>', bufopts)
 
         local opts = { noremap = true, silent = true }
 
-        vim.keymap.set('n', 'çn', vim.diagnostic.goto_next,
-          vim.tbl_extend('keep', opts, { desc = 'Move to the next diagnostic' }))
-        vim.keymap.set('n', 'çb', vim.diagnostic.goto_prev,
-          vim.tbl_extend('keep', opts, { desc = 'Move to the previous diagnostic' }))
-        vim.keymap.set('n', 'çp', vim.diagnostic.goto_prev,
-          vim.tbl_extend('keep', opts, { desc = 'Move to the previous diagnostic' }))
+        map('n', 'çd', '<Cmd>Telescope diagnostics bufnr=0<CR>', opts)
+        -- map('n', 'çn', vim.diagnostic.goto_next, merge(opts, { desc = 'Move to the next diagnostic' }))
+        -- map('n', 'çp', vim.diagnostic.goto_prev, merge(opts, { desc = 'Move to the previous diagnostic' }))
       end,
     })
 
     -- Setup diagnostic symbols for each error level
-    local symbols = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
+    local symbols = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
 
     for type, icon in pairs(symbols) do
       local hl = 'DiagnosticSign' .. type
@@ -87,95 +114,144 @@ return {
     -- By default, Neovim doesn't support everything in the LSP specification.
     -- When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
     -- So, we create new capabilities with nvim-cmp, and then broadcast that to the servers.
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+    local capabilities = vim.tbl_deep_extend('force', lsp_capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-    -- Use mason-lspconfig to setup default and custom server handlers
-    require('mason-lspconfig').setup_handlers({
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
+    -- -- Add the border on hover and on signature help popup window
+    -- local handlers = {
+    --   ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+    --     border = 'rounded',
+    --     focusable = false,
+    --     max_width = 100,
+    --     max_height = 25,
+    --     highlight = 'NormalFloat',
+    --   }),
+    --   ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    --     border = 'rounded',
+    --     focusable = false,
+    --   }),
+    -- }
 
-      -- TODO: Don't know if this is necessary or smart (maybe remove it?)
-      -- lspconfig.util.on_setup = lspconfig.util.add_hook_before(lspconfig.util.on_setup, function(config)
-      --   if config.name == "elixirls" then
-      --     local custom_server_prefix = "/Users/scrub/.local/share/nvim/mason"
-      --     config.cmd = { custom_server_prefix .. "/bin/elixir-ls" }
-      --   end
-      -- end)
-
-      -- https://github.com/elixir-lsp/elixir-ls
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
-      elixirls = function()
-        lspconfig.elixirls.setup({
-          capabilities = capabilities,
-          cmd = { '/Users/scrub/.local/share/nvim/mason/bin/elixir-ls' },
-          settings = {
-            elixirLS = {
-              dialyzerEnabled = true,
-              enableTestLenses = false,
-              fetchDeps = false,
-              suggestSpecs = true,
-              hint = { enabled = true },
-            },
-          },
-        })
-      end,
-
-      graphql = function()
-        lspconfig.graphql.setup({
-          capabilities = capabilities,
-          filetypes = { 'graphql', 'gql', 'elixir', 'typescriptreact', 'javascriptreact' },
-        })
-      end,
-
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-      lua_ls = function()
-        lspconfig.lua_ls.setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              telemetry = { enable = false },
-              diagnostics = {
-                globals = { 'vim' },
-                neededFileStatus = { ['codestyle-check'] = 'Any' },
-              },
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- format = {
-              --   enable = true,
-              --   defaultConfig = {
-              --     indent_style = 'space',
-              --     indent_size = '2',
-              --   },
-              -- },
-            },
-          },
-        })
-      end,
+    -- Nvim 11.0+ supports the `vim.lsp.config` function to configure LSP servers
+    vim.lsp.config('*', {
+      capabilities = capabilities,
     })
 
-    -- require('lspconfig').lua_ls.setup({})
-    --
-    -- vim.api.nvim_create_autocmd('LspAttach', {
-    --   callback = function(args)
-    --     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    --
-    --     if not client then return end
-    --
-    --     if client.supports_method('textDocument/formatting') then
-    --       -- Format the current buffer on save
-    --       vim.api.nvim_create_autocmd('BufWritePre', {
-    --         buffer = args.buf,
-    --         callback = function()
-    --           vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-    --         end,
-    --       })
-    --     end
-    --   end,
+    -- "ts_ls" or "vtsls" for TypeScript
+    local ts_server = vim.g.lsp_typescript_server or 'ts_ls'
+
+    -- Enable LSP servers for Neovim 0.11+
+    vim.lsp.enable({
+      ts_server,
+      'lua_ls',       -- Lua
+      -- 'cssls',        -- CSS
+      -- 'dockerls',     -- Docker
+      -- 'elixirls',     -- Elixir
+      -- 'eslint',       -- ESLint
+      -- 'html',         -- HTML
+      'intelephense', -- PHP
+      -- 'jsonls',       -- JSON
+      -- 'marksman',     -- Markdown
+      'tailwindcss',  -- Tailwind CSS
+      -- 'yamlls',       -- YAML
+      -- 'biome',       -- Biome = Eslint + Prettier
+      -- 'pyright',     -- Python
+    })
+
+    -- Load Lsp on-demand, e.g: eslint is disable by default
+    -- e.g: We could enable eslint by set vim.g.lsp_on_demands = {"eslint"}
+    if vim.g.lsp_on_demands then
+      vim.lsp.enable(vim.g.lsp_on_demands)
+    end
+
+    -- require('mason-lspconfig').setup({
+    --   ensure_installed = { 'lua_ls' },
+    --   automatic_enable = true,
     -- })
+
+    -- Use mason-lspconfig to setup default and custom server handlers
+    -- require('mason-lspconfig').setup_handlers({
+    --   function(server_name)
+    --     lspconfig[server_name].setup({
+    --       capabilities = capabilities,
+    --       handlers = handlers,
+    --     })
+    --   end,
+
+    -- cssls = function()
+    --   lspconfig.cssls.setup({
+    --     capabilities = capabilities,
+    --     handlers = handlers,
+    --     settings = {
+    --       css = {
+    --         lint = {
+    --           unknownAtRules = 'ignore',
+    --         },
+    --       },
+    --     },
+    --   })
+    -- end,
+
+    -- https://github.com/elixir-lsp/elixir-ls
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+    -- elixirls = function()
+    --   lspconfig.elixirls.setup({
+    --     capabilities = capabilities,
+    --     handlers = handlers,
+    --     cmd = { '/Users/scrub/.local/share/nvim/mason/bin/elixir-ls' },
+    --     settings = {
+    --       elixirLS = {
+    --         dialyzerEnabled = true,
+    --         enableTestLenses = false,
+    --         fetchDeps = false,
+    --         suggestSpecs = true,
+    --         hint = { enabled = true },
+    --       },
+    --     },
+    --   })
+    -- end,
+
+    -- graphql = function()
+    --   lspconfig.graphql.setup({
+    --     capabilities = capabilities,
+    --     handlers = handlers,
+    --     filetypes = { 'graphql', 'gql', 'elixir', 'typescriptreact', 'javascriptreact' },
+    --   })
+    -- end,
+
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+    -- lua_ls = function()
+    --   lspconfig.lua_ls.setup({
+    --     capabilities = capabilities,
+    --     handlers = handlers,
+    --     settings = {
+    --       Lua = {
+    --         telemetry = { enable = false },
+    --         diagnostics = {
+    --           globals = { 'vim' },
+    --           neededFileStatus = { ['codestyle-check'] = 'Any' },
+    --         },
+    --         completion = {
+    --           callSnippet = 'Replace',
+    --         },
+    --       },
+    --     },
+    --   })
+    -- end,
+    -- })
+
+    -- vim.cmd([[highlight! default link CmpItemKind CmpItemMenuDefault]])
+
+    vim.diagnostic.config({
+      signs = true,
+      underline = true,
+      virtual_text = true,
+      float = {
+        source = false,
+        focusable = false,
+        show_header = true,
+        border = 'rounded',
+      },
+    })
   end,
 }

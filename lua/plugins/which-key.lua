@@ -6,5 +6,10 @@ return {
   cmd = 'WhichKey',
   opts = {
     win = { border = 'rounded' },
+    icons = {
+      rules = {
+        { pattern = 'harpoon', icon = '󰛢' },
+      },
+    },
   },
 }

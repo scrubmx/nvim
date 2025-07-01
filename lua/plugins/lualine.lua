@@ -11,6 +11,25 @@ return {
     -- local current_date = function() return os.date("%a %d %b") end
     -- local current_time = function() return os.date("%H:%M") end
 
+    -- https://catppuccin.com/palette/#flavor-mocha
+    local ok_palette, palette = pcall(require, 'catppuccin.palettes')
+    local colors = {}
+
+    if not ok_palette then
+      -- Fallback colors if palette is not available
+      table.insert(colors, {
+        text = '#cdd6f4',
+        blue = '#89b4fa',
+        surface0 = '#313244',
+        base = '#1e1e2e',
+        mantle = '#181825',
+      })
+
+      vim.api.nvim_echo({ { 'lualine: catppuccin.palettes not found!', 'WarningMsg' } }, true, {})
+    else
+      colors = palette.get_palette('mocha')
+    end
+
     require('lualine').setup({
       options = {
         icons_enabled = true,
@@ -37,18 +56,30 @@ return {
         },
         lualine_b = {
           -- { 'branch', icon = { '' }, separator = '', color = { fg = '', bg = '' } },
-          { 'branch', icon = { '' } },
+          {
+            'branch',
+            icon = { '' },
+            separator = { right = '' },
+            color = { bg = colors.surface0 },
+            colored = true,
+          },
           -- { 'diff' },
           -- { 'diff', symbols = { added = ' ', modified = ' ', removed = ' ' } },
           -- { 'diff', symbols = { added = '＋', modified = '～', removed = '－' } },
-          { 'diff', symbols = { added = '+', modified = '±', removed = '-' } },
+          {
+            'diff',
+            symbols = { added = '+', modified = '±', removed = '-' },
+            separator = { right = '' },
+            color = { bg = colors.base },
+            colored = true,
+          },
         },
         lualine_c = {
           -- { 'filetype', colored = true, icon_only = true, icon = { align = 'left' } },
           {
             'filename',
             newfile_status = false, -- Display new file status (new file means no write after created)
-            file_status = true,     -- Displays file status (readonly status, modified status)
+            file_status = true, -- Displays file status (readonly status, modified status)
             -- 0: Just the filename
             -- 1: Relative path
             -- 2: Absolute path
@@ -60,19 +91,78 @@ return {
         },
         lualine_x = {
           {
+            function()
+              local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+              if #clients == 0 then
+                return 'None'
+              end
+
+              return #clients
+            end,
+            color = { fg = colors.text },
+            icon = { '', color = { fg = colors.blue } },
+            spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }, -- Standard unicode symbols to cycle through for LSP progress (I dont know if this works)
+            on_click = function()
+              local clients = vim.lsp.get_clients({ bufnr = 0 })
+              local names = {}
+
+              for _, client in ipairs(clients) do
+                table.insert(names, ' • ' .. client.name)
+              end
+
+              local ok_notify, notify = pcall(require, 'notify')
+
+              if not ok_notify then
+                vim.api.nvim_echo({ { 'LSP Clients: ' .. table.concat(names, ''), 'InfoMsg' } }, true, {})
+
+                return
+              end
+
+              if #names == 0 then
+                notify('No active LSP clients', vim.log.levels.WARN, { title = 'LSP Clients' })
+              else
+                notify(table.concat(names, '\n'), vim.log.levels.INFO, { title = 'LSP Clients' })
+              end
+            end,
+          },
+          -- {
+          --   'lsp_status', -- https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/components/lsp_status.lua
+          --   icon = { '󰆧', color = { fg = colors.blue } },
+          --   color = { fg = colors.text },
+          --   symbols = {
+          --     spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }, -- Standard unicode symbols to cycle through for LSP progress
+          --     done = '✓', -- Standard unicode symbol for when LSP is done
+          --     separator = ' ', -- Delimiter inserted between LSP names
+          --   },
+          --   ignore_lsp = { 'copilot', 'emmet_ls', 'graphql', 'null-ls' }, -- List of LSP names to ignore (e.g. 'null-ls')
+          -- },
+          {
             'diagnostics',
             sources = { 'nvim_diagnostic' },
-            symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+            symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }, -- hint = ' '
+            -- symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }, -- hint = ' '
+            separator = { left = '' },
+            color = { bg = colors.mantle },
+            colored = true,
           },
           -- { current_date },
           -- {
           --   current_time,
-          --   icon = { '', color = { fg = '#61afef' } },
-          --   color = { fg = '#a0a8b7' },
+          --   icon = { '', color = { fg = colors.blue } },
+          --   color = { fg = colors.text },
           -- },
-          { 'filetype' },
+          {
+            'filetype',
+            color = { bg = colors.base },
+            separator = { left = '' },
+            colored = true,
+            icon = { align = 'left' },
+          },
         },
-        lualine_y = { 'progress' },
+        lualine_y = {
+          'progress',
+        },
         lualine_z = { 'location' },
       },
       inactive_sections = {
@@ -82,7 +172,7 @@ return {
           {
             'filename',
             newfile_status = false, -- Display new file status (new file means no write after created)
-            file_status = true,     -- Displays file status (readonly status, modified status)
+            file_status = true, -- Displays file status (readonly status, modified status)
             -- 0: Just the filename
             -- 1: Relative path
             -- 2: Absolute path
@@ -107,6 +197,8 @@ return {
         'mason',
         'neo-tree',
         -- 'aerial',
+        -- 'assistant',
+        -- 'avante',
         -- 'chadtree',
         -- 'ctrlspace',
         -- 'fern',

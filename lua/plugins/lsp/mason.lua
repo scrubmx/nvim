@@ -30,8 +30,10 @@ return {
     -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
     require('mason-tool-installer').setup({
       ensure_installed = {
-        'stylua',
+        'hadolint',
+        'nginx-config-formatter',
         'prettierd',
+        'stylua',
       },
     })
 
@@ -39,23 +41,28 @@ return {
     -- https://github.com/williamboman/mason-lspconfig.nvim
     require('mason-lspconfig').setup({
       automatic_installation = true,
+      automatic_enable = true,
 
       -- https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
       -- https://www.elixir-tools.dev/docs/next-ls/installation/#masonnvim
+      -- https://github.com/neovim/nvim-lspconfig/tree/master/lsp
       -- https://github.com/elixir-tools/elixir-tools.nvim
       ensure_installed = {
         -- 'erlangls',
-        -- 'intelephense',
+        -- 'gleam',
+        -- 'nextls',
         -- 'phpactor',
         'bashls',
         'cmake',
         'cssls',
+        'dockerls',
         'dotls',
         'elixirls',
         'emmet_ls',
         'eslint',
         'graphql',
         'html',
+        'intelephense',
         'jsonls',
         'lua_ls',
         'marksman',

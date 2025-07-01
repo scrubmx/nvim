@@ -78,6 +78,7 @@ return {
         'clojure',
         'css',
         'diff',
+        'dockerfile',
         'dot',
         'eex',
         'elixir',

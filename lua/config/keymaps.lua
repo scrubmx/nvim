@@ -1,4 +1,40 @@
 -------------------------------------------------
+-- Conflicts
+-------------------------------------------------
+
+--[[
+- WARNING In mode `n`, <gc> overlaps with <gcc>:
+  - <gc>: Toggle comment
+  - <gcc>: Toggle comment line
+- WARNING In mode `n`, <gr> overlaps with <gri>, <grr>, <gra>, <grn>:
+  - <gr>: LSP Rename all symbol references
+  - <gri>: vim.lsp.buf.implementation()
+  - <grr>: vim.lsp.buf.references()
+  - <gra>: vim.lsp.buf.code_action()
+  - <grn>: vim.lsp.buf.rename()
+- WARNING In mode `n`, <sF> overlaps with <sFn>, <sFl>:
+  - <sF>: Find left surrounding
+  - <sFn>: Find next left surrounding
+  - <sFl>: Find previous left surrounding
+- WARNING In mode `n`, <sf> overlaps with <sfn>, <sfl>:
+  - <sf>: Find right surrounding
+  - <sfn>: Find next right surrounding
+  - <sfl>: Find previous right surrounding
+- WARNING In mode `n`, <sh> overlaps with <shn>, <shl>:
+  - <sh>: Highlight surrounding
+  - <shn>: Highlight next surrounding
+  - <shl>: Highlight previous surrounding
+- WARNING In mode `n`, <sd> overlaps with <sdn>, <sdl>:
+  - <sd>: Delete surrounding
+  - <sdn>: Delete next surrounding
+  - <sdl>: Delete previous surrounding
+- WARNING In mode `n`, <sr> overlaps with <srn>, <srl>:
+  - <sr>: Replace surrounding
+  - <srn>: Replace next surrounding
+  - <srl>: Replace previous surrounding
+]]
+
+-------------------------------------------------
 -- General
 -------------------------------------------------
 
@@ -20,6 +56,53 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 -- Prevent 'change' commands from yanking text
 -- https://stackoverflow.com/questions/62675763/how-can-i-stop-a-change-from-copying-to-my-paste-buffer#answer-62676339
 vim.keymap.set('n', 'c', '"_c', { noremap = true, silent = true })
+
+-- Join lines and keep in the same place the cursor
+-- https://github.com/adalessa/nvim/blob/9f7ef8669223eb7cdaf3f580dc8b6a7926807231/lua/config/keymaps.lua#L50C1-L50C86
+vim.keymap.set('n', 'J', 'mzJ`z', { noremap = true, silent = true })
+
+-- Move lines up and down in visual mode
+-- https://youtu.be/FGVY7gbaoQI?si=E2y5ZdrcOQ91BDWS&t=745
+-- TODO: Figure out the mini.move plugin and use it instead
+-- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv'", { noremap = true, silent = true, nowait = true })
+-- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv'", { noremap = true, silent = true, nowait = true })
+
+-- Move lines up and down in normal and visual mode
+-- vim.keymap.set('n', '<C-J>', ':move .+1<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<C-K>', ':move .-2<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('v', '<C-J>', ':move \'>+1<CR>:normal gv<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('v', '<C-K>', ':move \'<-2<CR>:normal gv<CR>', { noremap = true, silent = true })
+
+-- Search and replace the word under the cursor
+-- TODO: Figure out how to make this work with having to press space after
+vim.keymap.set('n', '<Leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { noremap = true, silent = true })
+
+-------------------------------------------------
+-- VIM hard mode (disable backspace and arrows)
+-- https://www.mailslurp.com/blog/vim-hard-mode
+-------------------------------------------------
+
+local hardmode = true
+
+if hardmode then
+  -- Show an error message if a disabled key is pressed
+  local msg = [[<Cmd>echohl Error | echo "KEY DISABLED" | echohl None<CR>]]
+
+  -- Disable arrow keys in insert mode with a styled message
+  vim.keymap.set('i', '<Up>', '<C-o>' .. msg, { noremap = true, silent = false })
+  vim.keymap.set('i', '<Down>', '<C-o>' .. msg, { noremap = true, silent = false })
+  vim.keymap.set('i', '<Left>', '<C-o>' .. msg, { noremap = true, silent = false })
+  vim.keymap.set('i', '<Right>', '<C-o>' .. msg, { noremap = true, silent = false })
+  -- vim.keymap.set('i', '<Del>', '<C-o>' .. msg, { noremap = true, silent = false })
+  -- vim.keymap.set('i', '<BS>', '<C-o>' .. msg, { noremap = true, silent = false })
+
+  -- Disable arrow keys in normal mode with a styled message
+  vim.keymap.set('n', '<Up>', msg, { noremap = true, silent = false })
+  vim.keymap.set('n', '<Down>', msg, { noremap = true, silent = false })
+  vim.keymap.set('n', '<Left>', msg, { noremap = true, silent = false })
+  vim.keymap.set('n', '<Right>', msg, { noremap = true, silent = false })
+  -- vim.keymap.set('n', '<BS>', msg, { noremap = true, silent = false })
+end
 
 -------------------------------------------------
 -- Splits/Tabs
@@ -73,23 +156,6 @@ vim.keymap.set('n', 'sv', '<Cmd>vsplit<Return><C-w>l', { silent = true })
 -- ,zE deletes all folds
 -- ,[z move to start of open fold
 -- ,]z move to end of open fold
-
--------------------------------------------------
--- NVIM CMP
--------------------------------------------------
-
--- <Ctrl-y>: Confirms selection
--- <Ctrl-e>: Toggles the completion (Okay, in Vim the default just cancels the completion. I set it to toggle)
--- <Up>: Navigate to the previous item on the list
--- <Down>: Navigate to the next item on the list
--- <Ctrl-p>: Navigate to the previous item on the list
--- <Ctrl-n>: Navigate to the next item on the list
---
--- <Enter>: Confirms selection
--- <Ctrl-d>: Go to the next placeholder in the snippets
--- <Ctrl-b>: Go to the previous placeholder in the snippets
--- <Tab>: Complete when the cursor is inside a word (When the menu is visible it'll navigate to the next item in the list)
--- <S-Tab>: When the completion menu is visible navigate to the previous item in the list
 
 -------------------------------------------------
 -- Delete Commands

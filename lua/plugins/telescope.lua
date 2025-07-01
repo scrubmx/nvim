@@ -37,6 +37,7 @@ return {
     { '<Leader>fy', '<Cmd>Telescope lsp_document_symbols<CR>' },
     { '<Leader>fd', '<Cmd>Telescope diagnostics<CR>' },
     { '<Leader>fg', '<Cmd>Telescope live_grep<CR>' },
+    { '<Leader>fc', '<Cmd>Telescope grep_string<CR>', desc = 'Telescope grep_word_under_cursor' },
     { '<Leader>fh', '<Cmd>Telescope help_tags<CR>' },
     { '<Leader>fr', '<Cmd>Telescope oldfiles<CR>' },
     { '<Leader>fs', '<Cmd>Telescope spell_suggest<CR>' },
@@ -45,14 +46,29 @@ return {
     -- { '<Leader>fh', function() require('telescope.builtin').help_tags() end, desc = 'Telescope help_tags' },
     -- { '<Leader>fr', function() require('telescope.builtin').oldfiles() end, desc = 'Telescope oldfiles' },
     -- { '<Leader>fs', function() require('telescope.builtin').spell_suggest() end, desc = 'Telescope spell_suggest' },
-    { '<Leader>fo', function() require('telescope.builtin').buffers() end, desc = 'Telescope buffers' },
-    { '<Leader>fv', function() require('telescope.builtin').find_files({ cwd = vim.fn.stdpath('config') }) end, desc = 'Telescope nvim_config_files' },
+    {
+      '<Leader>fo',
+      function()
+        require('telescope.builtin').buffers()
+      end,
+      desc = 'Telescope buffers',
+    },
+    {
+      '<Leader>fv',
+      function()
+        require('telescope.builtin').find_files({ cwd = vim.fn.stdpath('config') })
+      end,
+      desc = 'Telescope nvim_config_files',
+    },
   },
   config = function()
     local telescope = require('telescope')
     local actions = require('telescope.actions')
     local themes = require('telescope.themes')
     local fb_actions = telescope.extensions.file_browser.actions
+
+    -- https://github.com/nvim-telescope/telescope.nvim/issues/2924#issuecomment-1950667113
+    local ripgrep_args = { 'rg', '--case-sensitive', '--hidden', '--glob', '!**/.git/*', '--glob', '!**/node_modules/*' }
 
     -- TODO: Dont preview binaries
     -- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#dont-preview-binaries
@@ -98,7 +114,7 @@ return {
             ['<C-v>'] = actions.select_vertical,
             ['<C-x>'] = actions.select_horizontal,
             ['<C-h>'] = actions.which_key,
-            ['<C-?>'] = actions.which_key,
+            -- ['<C-?>'] = actions.which_key,
             ['<Down>'] = actions.move_selection_next,
             ['<Up>'] = actions.move_selection_previous,
             ['<Enter>'] = actions.select_default,
@@ -183,7 +199,7 @@ return {
           themes.get_dropdown({
             layout_config = {
               prompt_position = 'top',
-            }
+            },
           }),
         },
       },
@@ -192,6 +208,8 @@ return {
           ignore_current_buffer = true,
           previewer = true,
           sort_lastused = true,
+          live_grep = { additional_args = ripgrep_args },
+          grep_string = { additional_args = ripgrep_args },
         },
       },
     })
@@ -199,5 +217,7 @@ return {
     telescope.load_extension('file_browser')
     telescope.load_extension('fzf')
     telescope.load_extension('ui-select')
+    -- TODO: Install other extensions
+    -- https://github.com/nvim-telescope/telescope-frecency.nvim#installation
   end,
 }

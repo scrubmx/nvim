@@ -23,26 +23,68 @@ return {
   },
   {
     'nvim-neorg/neorg',
-    lazy = true,
+    lazy = false,
     version = '*',
     ft = 'norg',
     -- config = true,
     -- build = ':Neorg sync-parsers'
     dependencies = { 'luarocks.nvim' },
+    --[[
+      Neorg Keybindings
+      - <LocalLeader>cm  neorg.promo.demote.range
+      - <LocalLeader>id  neorg.looking-glass.magnify-code-block
+      - <LocalLeader>li  neorg.tempus.insert-date
+      - <LocalLeader>lt  neorg.pivot.list.invert
+      - <LocalLeader>ta  neorg.pivot.list.toggle
+      - <LocalLeader>td  neorg.qol.todo-items.todo.task-cancelled
+      - <LocalLeader>th  neorg.qol.todo-items.todo.task-done
+      - <LocalLeader>ti  neorg.qol.todo-items.todo.task-on-hold
+      - <LocalLeader>tp  neorg.qol.todo-items.todo.task-important
+      - <LocalLeader>tr  neorg.qol.todo-items.todo.task-pending
+      - <LocalLeader>tu  neorg.qol.todo-items.todo.task-recurring
+      - gO               neorg.promo.promote.range
+    ]]
+    keys = {
+      -- { '<Leader>nc', '<Cmd>Neorg cheetsheet<CR>', desc = 'Neorg Cheatsheet' },
+      -- { '<Leader>n?', '<Cmd>Neorg toggle help<CR>', desc = 'Toggle Neorg Help' },
+      -- { '<Leader>nd',  '<Cmd>Neorg insert date<CR>', desc = 'Insert Neorg Date' },
+      { '<Leader>ni', '<Cmd>Neorg index<CR>',             desc = 'Neorg Index' },
+      { '<Leader>nn', '<Cmd>Neorg new note<CR>',          desc = 'New Neorg Note' },
+      { '<Leader>ns', '<Cmd>Neorg summary<CR>',           desc = 'Neorg Summary' },
+      { '<Leader>nt', '<Cmd>Neorg toc<CR>',               desc = 'Table of Contents' },
+      { '<Leader>nw', '<Cmd>Neorg toggle workspaces<CR>', desc = 'Toggle Neorg Workspaces' },
+    },
     opts = {
       load = {
         ['core.defaults'] = {},
-        ['core.keybinds'] = {},
+        -- ['core.keybinds'] = {},
+        ['core.summary'] = {},
+        ['core.completion'] = {
+          config = {
+            engine = 'nvim-cmp',
+          },
+        },
+        ['core.dirman'] = {
+          config = {
+            workspaces = {
+              vector = '~/Vector/notes',
+              notes = '~/Library/Mobile Documents/com~apple~CloudDocs/Documents/Notes',
+            },
+          },
+        },
         ['core.concealer'] = {
           config = {
+            -- https://www.nerdfonts.com/cheat-sheet
+            -- <Cmd>neorg-cheatsheet-lists<CR>
             icons = {
               todo = {
-                -- cancelled = { icon = '󰩺' },
-                on_hold = { icon = '⏸' },
-                pending = { icon = '' },
-                recurring = { icon = '' },
-                uncertain = { icon = '?' },
-                urgent = { icon = '!' },
+                done = { icon = '󰄬' }, --    
+                -- cancelled = { icon = '󰖭' }, --   󰖭  󰩺 
+                on_hold = { icon = '' }, --  󰏤 
+                pending = { icon = '' }, --     
+                -- recurring = { icon = '' }, --     
+                uncertain = { icon = '?' }, --  ?
+                urgent = { icon = '!' }, --  󰈅
               },
             },
           },

@@ -1,7 +1,10 @@
+-- Provides Nerd Font icons (glyphs) for use by neovim plugins
+-- https://github.com/nvim-tree/nvim-web-devicons
 return {
   'nvim-tree/nvim-web-devicons',
   lazy = true,
   config = function()
+    -- https://github.com/nvim-tree/nvim-web-devicons#setup
     local web_dev_icons = require('nvim-web-devicons')
 
     web_dev_icons.setup({

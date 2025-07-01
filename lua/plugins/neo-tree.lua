@@ -11,17 +11,12 @@ return {
     'MunifTanjim/nui.nvim',
     -- '3rd/image.nvim', -- Optional image support in preview window: See `# Preview Mode` for more information
   },
+  keys = {
+    { '<Leader>1', '<Cmd>Neotree toggle reveal=true<CR>' },
+  },
   init = function()
     vim.g.neo_tree_theme = 'catppuccin-mocha'
     vim.g.neo_tree_remove_legacy_commands = true
-
-    -- From lualine config: { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-    vim.fn.sign_define('DiagnosticSignError', { text = '', texthl = 'DiagnosticSignError' })
-    vim.fn.sign_define('DiagnosticSignWarn', { text = '', texthl = 'DiagnosticSignWarn' })
-    vim.fn.sign_define('DiagnosticSignInfo', { text = '', texthl = 'DiagnosticSignInfo' })
-    vim.fn.sign_define('DiagnosticSignHint', { text = '', texthl = 'DiagnosticSignHint' })
-
-    vim.keymap.set('n', '<Leader>1', '<Cmd>Neotree toggle<CR>', { nowait = true, noremap = true, silent = true })
   end,
   config = function()
     -- https://github.com/nvim-neo-tree/neo-tree.nvim#quickstart
