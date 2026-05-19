@@ -23,6 +23,68 @@ return {
     },
   },
   config = function()
+    -- Prefer external formatters where none-ls is configured, and avoid ts_ls/vtsls
+    -- formatting for JavaScript and TypeScript buffers.
+    local format_client_priority_by_ft = {
+      lua = { 'null-ls', 'lua_ls' },
+
+      javascript = { 'null-ls', 'eslint' },
+      javascriptreact = { 'null-ls', 'eslint' },
+      ['javascript.jsx'] = { 'null-ls', 'eslint' },
+      typescript = { 'null-ls', 'eslint' },
+      typescriptreact = { 'null-ls', 'eslint' },
+      ['typescript.tsx'] = { 'null-ls', 'eslint' },
+
+      css = { 'null-ls', 'cssls' },
+      scss = { 'null-ls', 'cssls' },
+      less = { 'null-ls', 'cssls' },
+      html = { 'null-ls', 'html' },
+      json = { 'null-ls', 'jsonls' },
+      jsonc = { 'null-ls', 'jsonls' },
+
+      php = { 'intelephense' },
+
+      elixir = { 'null-ls' },
+      eelixir = { 'null-ls' },
+      heex = { 'null-ls' },
+      nginx = { 'null-ls' },
+    }
+
+    local function select_format_client(bufnr)
+      local clients = vim.lsp.get_clients({
+        bufnr = bufnr,
+        method = 'textDocument/formatting',
+      })
+
+      if #clients == 0 then
+        return nil
+      end
+
+      local priority = format_client_priority_by_ft[vim.bo[bufnr].filetype]
+
+      if priority then
+        for _, client_name in ipairs(priority) do
+          for _, client in ipairs(clients) do
+            if client.name == client_name then
+              return client
+            end
+          end
+        end
+
+        return nil
+      end
+
+      if #clients == 1 then
+        return clients[1]
+      end
+
+      table.sort(clients, function(a, b)
+        return a.name < b.name
+      end)
+
+      return clients[1]
+    end
+
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('LspConfigGroup', { clear = true }),
       callback = function(event)
@@ -79,7 +141,20 @@ return {
         map('n', 'K', vim.lsp.buf.hover, merge(bufopts, { desc = 'LSP Display symbol information' }))
         map('n', '<C-k>', vim.lsp.buf.signature_help, merge(bufopts, { desc = 'LSP Display signature information' }))
         map('n', '<Space>f', function()
-          vim.lsp.buf.format({ async = true })
+          local client = select_format_client(event.buf)
+
+          if not client then
+            vim.notify('No LSP formatter configured for ' .. vim.bo[event.buf].filetype, vim.log.levels.WARN)
+            return
+          end
+
+          vim.lsp.buf.format({
+            async = true,
+            bufnr = event.buf,
+            filter = function(format_client)
+              return format_client.id == client.id
+            end,
+          })
         end, merge(bufopts, { desc = 'LSP Format the current buffer' }))
         map(
           { 'n', 'v' },
