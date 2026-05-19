@@ -11,8 +11,13 @@ return {
   priority = 1000,
   config = function()
     require('catppuccin').setup({
+      flavour = 'mocha', -- latte, frappe, macchiato, mocha
       default_integrations = true,
       transparent_background = true,
+      float = {
+        transparent = true, -- Enable transparent floating windows
+        solid = false,      -- Use solid styling for floating windows, see |winborder|
+      },
       -- List of supported plugins and their corresponding integration module
       -- https://github.com/catppuccin/nvim#integrations
       integrations = {
@@ -21,6 +26,7 @@ return {
         -- noice = true,
         -- ufo = true,
         cmp = true,
+        fzf = true,
         gitsigns = true,
         harpoon = true,
         indent_blankline = { enabled = true },
