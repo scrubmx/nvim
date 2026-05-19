@@ -68,7 +68,14 @@ return {
     local fb_actions = telescope.extensions.file_browser.actions
 
     -- https://github.com/nvim-telescope/telescope.nvim/issues/2924#issuecomment-1950667113
-    local ripgrep_args = { 'rg', '--case-sensitive', '--hidden', '--glob', '!**/.git/*', '--glob', '!**/node_modules/*' }
+    local ripgrep_args = {
+      '--case-sensitive',
+      '--hidden',
+      '--glob',
+      '!**/.git/*',
+      '--glob',
+      '!**/node_modules/*',
+    }
 
     -- TODO: Dont preview binaries
     -- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#dont-preview-binaries
@@ -208,9 +215,9 @@ return {
           ignore_current_buffer = true,
           previewer = true,
           sort_lastused = true,
-          live_grep = { additional_args = ripgrep_args },
-          grep_string = { additional_args = ripgrep_args },
         },
+        live_grep = { additional_args = ripgrep_args },
+        grep_string = { additional_args = ripgrep_args },
       },
     })
 
