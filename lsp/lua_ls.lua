@@ -72,7 +72,7 @@
 ---@type vim.lsp.Config
 return {
   cmd = { 'lua-language-server' },
-  root_makers = {
+  root_markers = {
     '.luarc.json',
     '.luarc.jsonc',
     '.luacheckrc',
@@ -82,19 +82,32 @@ return {
     'selene.yml',
     '.git',
   },
-  root_dir = require('lspconfig.util').root_pattern(
-    '.luarc.json',
-    '.luarc.jsonc',
-    '.luacheckrc',
-    '.stylua.toml',
-    'stylua.yaml',
-    'selene.toml',
-    'selene.yml',
-    '.git'
-  ),
   single_file_support = true,
   log_level = vim.lsp.protocol.MessageType.Warning,
   filetypes = { 'lua' },
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if
+        path ~= vim.fn.stdpath('config')
+        and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+      then
+        return
+      end
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = {
+        version = 'LuaJIT',
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+        },
+      },
+    })
+  end,
   settings = {
     Lua = {
       completion = {
@@ -106,6 +119,7 @@ return {
       },
       diagnostics = {
         globals = { 'vim' },
+        neededFileStatus = { ['codestyle-check'] = 'Any' },
       },
       telemetry = {
         enable = false,
