@@ -72,7 +72,12 @@
 ---
 ---@type vim.lsp.Config
 return {
-  init_options = { hostInfo = 'neovim' },
+  init_options = {
+    hostInfo = 'neovim',
+    preferences = {
+      disableSuggestions = false,
+    },
+  },
   cmd = { 'typescript-language-server', '--stdio' },
   filetypes = {
     'javascript',
@@ -109,7 +114,7 @@ return {
       vim.lsp.buf.code_action({
         context = {
           only = source_actions,
-          diagnostics = vim.lsp.diagnostic.get(0),
+          diagnostics = vim.diagnostic.get(0),
         },
       })
     end, {})

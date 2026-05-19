@@ -221,14 +221,6 @@ return {
     --
     --
 
-    lspconfig.ts_ls.setup({
-      init_options = {
-        preferences = {
-          disableSuggestions = false,
-        },
-      },
-    })
-
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
     lspconfig.lua_ls.setup({
       on_init = function(client)
