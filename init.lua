@@ -31,15 +31,20 @@
 
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
-vim.g.editorconfig = true
+
+vim.loader.enable()
+
+-- EditorConfig is built in and enabled by default in Neovim
+-- vim.g.editorconfig = true
 
 vim.opt.title = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.showmode = false
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard:append('unnamedplus')
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
+-- vim.opt.backspace = { 'start', 'eol', 'indent' }
 
 vim.opt.incsearch = true
 vim.opt.hlsearch = true
@@ -70,7 +75,7 @@ vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- Configuration for nvim-ufo
 vim.opt.foldcolumn = '0' -- Using ufo provider this prevents showing weird characters on the left
-vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
 
@@ -90,11 +95,12 @@ vim.opt.listchars = { trail = '·', tab = '➞ ', extends = '◣', precedes = '�
 vim.opt.laststatus = 3
 vim.opt.termguicolors = true
 vim.opt.background = 'dark'
-vim.opt.signcolumn = 'yes' -- 'auto:4'
+vim.opt.signcolumn = 'yes'    -- 'auto:4'
+vim.opt.isfname:append('@-@') -- Allow '-' in file names
 -- vim.opt.lazyredraw = true -- This doesn't work with noice plugin
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
-vim.opt.updatetime = 5000 -- If nothing is typed the swap file will be written to disk (milliseconds)
+vim.opt.updatetime = 4000 -- If nothing is typed the swap file will be written to disk (milliseconds)
 
 vim.opt.spelllang = { 'en_us', 'es' }
 vim.opt.spell = true
@@ -103,6 +109,7 @@ vim.opt.spell = true
 vim.filetype.add({
   pattern = {
     ['.*%.blade%.php'] = 'blade',
+    ['.*%.zsh%-theme'] = 'zsh',
   },
 })
 
@@ -112,9 +119,7 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 
 -- To use fzf in Neovim, add the following line to your init.lua
-vim.opt.rtp:append('/usr/local/opt/fzf')
-
-vim.loader.enable()
+vim.opt.rtp:append('/opt/homebrew/opt/fzf')
 
 require('config.lazy')
 require('config.autocmds')
