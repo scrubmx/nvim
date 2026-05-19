@@ -31,7 +31,9 @@ return {
         -- null_ls.builtins.diagnostics.codespell,
         -- null_ls.builtins.diagnostics.credo,
         null_ls.builtins.diagnostics.hadolint,
-        null_ls.builtins.diagnostics.dotenv_linter,
+        null_ls.builtins.diagnostics.dotenv_linter.with({
+          args = { '--plain', 'check', '$FILENAME' },
+        }),
 
         -- Formatting
         -- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#formatting

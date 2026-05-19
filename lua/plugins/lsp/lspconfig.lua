@@ -103,12 +103,12 @@ return {
     })
 
     -- Setup diagnostic symbols for each error level
-    local symbols = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
-
-    for type, icon in pairs(symbols) do
-      local hl = 'DiagnosticSign' .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
-    end
+    -- local symbols = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
+    --
+    -- for type, icon in pairs(symbols) do
+    --   local hl = 'DiagnosticSign' .. type
+    --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+    -- end
 
     -- LSP servers and clients can communicate to each other what features they support.
     -- By default, Neovim doesn't support everything in the LSP specification.
@@ -143,16 +143,16 @@ return {
     -- Enable LSP servers for Neovim 0.11+
     vim.lsp.enable({
       ts_server,
-      'lua_ls',       -- Lua
+      'lua_ls', -- Lua
       -- 'cssls',        -- CSS
       -- 'dockerls',     -- Docker
       -- 'elixirls',     -- Elixir
-      -- 'eslint',       -- ESLint
+      'eslint',       -- ESLint
       -- 'html',         -- HTML
       'intelephense', -- PHP
       -- 'jsonls',       -- JSON
       -- 'marksman',     -- Markdown
-      'tailwindcss',  -- Tailwind CSS
+      'tailwindcss', -- Tailwind CSS
       -- 'yamlls',       -- YAML
       -- 'biome',       -- Biome = Eslint + Prettier
       -- 'pyright',     -- Python
@@ -218,32 +218,76 @@ return {
     --     filetypes = { 'graphql', 'gql', 'elixir', 'typescriptreact', 'javascriptreact' },
     --   })
     -- end,
+    --
+    --
+
+    lspconfig.ts_ls.setup({
+      init_options = {
+        preferences = {
+          disableSuggestions = false,
+        },
+      },
+    })
 
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-    -- lua_ls = function()
-    --   lspconfig.lua_ls.setup({
-    --     capabilities = capabilities,
-    --     handlers = handlers,
-    --     settings = {
-    --       Lua = {
-    --         telemetry = { enable = false },
-    --         diagnostics = {
-    --           globals = { 'vim' },
-    --           neededFileStatus = { ['codestyle-check'] = 'Any' },
-    --         },
-    --         completion = {
-    --           callSnippet = 'Replace',
-    --         },
-    --       },
-    --     },
-    --   })
-    -- end,
+    lspconfig.lua_ls.setup({
+      on_init = function(client)
+        if client.workspace_folders then
+          local path = client.workspace_folders[1].name
+          if
+            path ~= vim.fn.stdpath('config')
+            and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+          then
+            return
+          end
+        end
+
+        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+          runtime = {
+            -- Tell the language server which version of Lua you're using
+            -- (most likely LuaJIT in the case of Neovim)
+            version = 'LuaJIT',
+          },
+          -- Make the server aware of Neovim runtime files
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME,
+              -- Depending on the usage, you might want to add additional paths here.
+              -- "${3rd}/luv/library"
+              -- "${3rd}/busted/library",
+            },
+            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+            -- library = vim.api.nvim_get_runtime_file("", true)
+          },
+        })
+      end,
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          telemetry = { enable = false },
+          diagnostics = {
+            globals = { 'vim' },
+            neededFileStatus = { ['codestyle-check'] = 'Any' },
+          },
+          completion = {
+            callSnippet = 'Replace',
+          },
+        },
+      },
+    })
+
     -- })
-
     -- vim.cmd([[highlight! default link CmpItemKind CmpItemMenuDefault]])
-
     vim.diagnostic.config({
-      signs = true,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = ' ',
+          [vim.diagnostic.severity.WARN] = ' ',
+          [vim.diagnostic.severity.HINT] = ' ',
+          [vim.diagnostic.severity.INFO] = ' ',
+        },
+      },
       underline = true,
       virtual_text = true,
       float = {

@@ -2,20 +2,26 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#lazynvim
 -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Extra-modules-and-plugins
 --
--- TODO: Install nvim-ts-autotag to close and rename html tags
+-- TODO: Install nvim-ts-autotag to close and rename HTML tags
 -- https://github.com/windwp/nvim-ts-autotag
 return {
   'nvim-treesitter/nvim-treesitter',
-  event = { 'BufReadPost', 'BufNewFile' },
+  -- event = { 'BufReadPre', 'BufNewFile' },
+  -- event = { 'BufReadPost', 'BufNewFile' },
   -- cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
+  lazy = false, -- Load on startup
+  branch = 'master',
   build = ':TSUpdate',
   dependencies = {
-    'nvim-treesitter/nvim-treesitter-refactor',
+    { 'nvim-treesitter/nvim-treesitter-refactor', enabled = false }, -- There is a long-standing issue specifically for “Highlight definitions leads to Error detected while processing CursorHold
     'RRethy/nvim-treesitter-endwise', -- Wisely add 'end' in Elixir, Lua, Ruby, etc.
-    'windwp/nvim-ts-autotag',         -- Auto close and auto rename html tags
+    'windwp/nvim-ts-autotag',         -- Auto close and auto rename HTML tags
   },
   config = function()
     require('nvim-treesitter.configs').setup({
+      -- List of additional modules to load, e.g. 'nvim-treesitter-refactor'
+      modules = {},
+
       -- Install parsers synchronously (only applied to `ensure_installed`)
       sync_install = false,
 
@@ -55,7 +61,7 @@ return {
       -- https://github.com/nvim-treesitter/nvim-treesitter-refactor
       refactor = {
         highlight_definitions = {
-          enable = true,
+          enable = false, -- Set to false since we disabled nvim-treesitter-refactor due to an issue
           clear_on_cursor_move = true, -- Set to false if you have an `updatetime` of ~100
         },
         smart_rename = {
@@ -75,6 +81,7 @@ return {
       -- https://github.com/nvim-treesitter/nvim-treesitter#supported-languages
       ensure_installed = {
         'bash',
+        'blade',
         'clojure',
         'css',
         'diff',
@@ -91,6 +98,7 @@ return {
         'javascript',
         'json',
         'jsonc',
+        'latex',
         'lua',
         'luadoc',
         'luap',
@@ -110,6 +118,7 @@ return {
         'typescript',
         'vim',
         'vimdoc',
+        'vue',
         'yaml',
       },
     })

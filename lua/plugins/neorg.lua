@@ -25,7 +25,7 @@ return {
     'nvim-neorg/neorg',
     lazy = false,
     version = '*',
-    ft = 'norg',
+    -- ft = 'norg',
     -- config = true,
     -- build = ':Neorg sync-parsers'
     dependencies = { 'luarocks.nvim' },
@@ -49,7 +49,7 @@ return {
       -- { '<Leader>n?', '<Cmd>Neorg toggle help<CR>', desc = 'Toggle Neorg Help' },
       -- { '<Leader>nd',  '<Cmd>Neorg insert date<CR>', desc = 'Insert Neorg Date' },
       { '<Leader>ni', '<Cmd>Neorg index<CR>',             desc = 'Neorg Index' },
-      { '<Leader>nn', '<Cmd>Neorg new note<CR>',          desc = 'New Neorg Note' },
+      -- { '<Leader>nn', '<Cmd>Neorg new note<CR>',          desc = 'New Neorg Note' },
       { '<Leader>ns', '<Cmd>Neorg summary<CR>',           desc = 'Neorg Summary' },
       { '<Leader>nt', '<Cmd>Neorg toc<CR>',               desc = 'Table of Contents' },
       { '<Leader>nw', '<Cmd>Neorg toggle workspaces<CR>', desc = 'Toggle Neorg Workspaces' },
@@ -62,6 +62,13 @@ return {
         ['core.completion'] = {
           config = {
             engine = 'nvim-cmp',
+          },
+        },
+        -- Fix norg_neta parser not found error
+        ['core.integrations.treesitter'] = {
+          config = {
+            configure_parsers = false,
+            warn_missing_parsers = false,
           },
         },
         ['core.dirman'] = {

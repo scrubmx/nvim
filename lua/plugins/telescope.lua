@@ -8,7 +8,7 @@
 -- https://www.youtube.com/watch?v=xdXE1tOT-qg
 return {
   'nvim-telescope/telescope.nvim',
-  tag = '0.1.8',
+  version = '*',
   cmd = 'Telescope',
   dependencies = {
     { 'nvim-lua/plenary.nvim' },

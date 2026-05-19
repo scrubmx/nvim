@@ -65,9 +65,6 @@ return {
         completeopt = 'menu,menuone,preview,noinsert,noselect',
         -- completeopt = 'menuone,preview,noinsert,noselect',
       },
-      performance = {
-        max_view_entries = 25,
-      },
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
