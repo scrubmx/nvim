@@ -4,6 +4,8 @@
 -- https://github.com/MeanderingProgrammer/render-markdown.nvim#setup
 return {
   'MeanderingProgrammer/render-markdown.nvim',
+  ft = 'markdown',
+  cmd = 'RenderMarkdown',
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons',

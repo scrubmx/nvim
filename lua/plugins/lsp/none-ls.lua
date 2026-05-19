@@ -3,6 +3,7 @@
 -- https://github.com/nvimtools/none-ls-extras.nvim
 return {
   'nvimtools/none-ls.nvim',
+  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'nvimtools/none-ls-extras.nvim',
     'nvim-lua/plenary.nvim',
