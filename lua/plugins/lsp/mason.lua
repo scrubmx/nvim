@@ -40,8 +40,7 @@ return {
     -- Extension to mason.nvim that makes it easier to use lspconfig with mason
     -- https://github.com/williamboman/mason-lspconfig.nvim
     require('mason-lspconfig').setup({
-      automatic_installation = true,
-      automatic_enable = true,
+      automatic_enable = false,
 
       -- https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
       -- https://www.elixir-tools.dev/docs/next-ls/installation/#masonnvim
