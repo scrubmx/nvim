@@ -34,8 +34,12 @@ return {
     local cwd = assert(vim.uv.cwd())
     local root = vim.fs.root(fname, { 'composer.json', '.git' })
 
-    -- prefer cwd if root is a descendant
-    on_dir(root and vim.fs.relpath(cwd, root) and cwd)
+    if not root then
+      return
+    end
+
+    -- Prefer cwd if root is a descendant.
+    on_dir(vim.fs.relpath(cwd, root) and cwd or root)
   end,
   init_options = {
     licenseKey = '/Users/scrub/intelephense/licence.txt',
