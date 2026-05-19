@@ -13,13 +13,12 @@ return {
   branch = 'master',
   build = ':TSUpdate',
   dependencies = {
-    { 'nvim-treesitter/nvim-treesitter-refactor', enabled = false }, -- There is a long-standing issue specifically for “Highlight definitions leads to Error detected while processing CursorHold
     'RRethy/nvim-treesitter-endwise', -- Wisely add 'end' in Elixir, Lua, Ruby, etc.
     'windwp/nvim-ts-autotag',         -- Auto close and auto rename HTML tags
   },
   config = function()
     require('nvim-treesitter.configs').setup({
-      -- List of additional modules to load, e.g. 'nvim-treesitter-refactor'
+      -- List of additional nvim-treesitter modules to load
       modules = {},
 
       -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -54,22 +53,6 @@ return {
         enable = true,
         disable = {
           'php',
-        },
-      },
-
-      -- Refactor module for nvim-treesitter
-      -- https://github.com/nvim-treesitter/nvim-treesitter-refactor
-      refactor = {
-        highlight_definitions = {
-          enable = false, -- Set to false since we disabled nvim-treesitter-refactor due to an issue
-          clear_on_cursor_move = true, -- Set to false if you have an `updatetime` of ~100
-        },
-        smart_rename = {
-          enable = true,
-          -- Assign keymaps to false to disable them, e.g. `smart_rename = false`.
-          keymaps = {
-            smart_rename = 'grr',
-          },
         },
       },
 

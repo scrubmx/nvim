@@ -17,13 +17,13 @@ return {
 
     if not ok_palette then
       -- Fallback colors if palette is not available
-      table.insert(colors, {
+      colors = {
         text = '#cdd6f4',
         blue = '#89b4fa',
         surface0 = '#313244',
         base = '#1e1e2e',
         mantle = '#181825',
-      })
+      }
 
       vim.api.nvim_echo({ { 'lualine: catppuccin.palettes not found!', 'WarningMsg' } }, true, {})
     else
