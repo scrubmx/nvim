@@ -1,5 +1,7 @@
 ---@brief
 ---
+--- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs/lua_ls.lua
+---
 --- https://github.com/luals/lua-language-server
 ---
 --- Lua language server.
@@ -80,6 +82,18 @@ return {
     'selene.yml',
     '.git',
   },
+  root_dir = require('lspconfig.util').root_pattern(
+    '.luarc.json',
+    '.luarc.jsonc',
+    '.luacheckrc',
+    '.stylua.toml',
+    'stylua.yaml',
+    'selene.toml',
+    'selene.yml',
+    '.git'
+  ),
+  single_file_support = true,
+  log_level = vim.lsp.protocol.MessageType.Warning,
   filetypes = { 'lua' },
   settings = {
     Lua = {

@@ -46,7 +46,6 @@ return {
     'razor',
     'slim',
     'twig',
-    -- css
     'css',
     'less',
     'postcss',
@@ -71,7 +70,7 @@ return {
       validate = true,
       lint = {
         cssConflict = 'warning',
-        invalidApply = 'error',
+        invalidApply = 'warning',
         invalidScreen = 'error',
         invalidVariant = 'error',
         invalidConfigPath = 'error',
