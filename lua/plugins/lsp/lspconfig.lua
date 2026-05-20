@@ -8,19 +8,7 @@ return {
   tag = 'v1.8.0',
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
-    'folke/neodev.nvim',
     'hrsh7th/cmp-nvim-lsp',
-    {
-      'folke/lazydev.nvim',
-      ft = 'lua',
-      opts = {
-        library = {
-          -- See the configuration section for more details
-          -- Load luvit types when the `vim.uv` word is found
-          { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-        },
-      },
-    },
   },
   config = function()
     -- Prefer external formatters where none-ls is configured, and avoid ts_ls/vtsls
