@@ -155,11 +155,9 @@ return {
         map('n', '<Space>s', '<Cmd>Telescope lsp_document_symbols<CR>', bufopts)
         map('n', '<Space>S', '<Cmd>Telescope lsp_workspace_symbols<CR>', bufopts)
 
-        local opts = { noremap = true, silent = true }
-
-        map('n', 'çd', '<Cmd>Telescope diagnostics bufnr=0<CR>', opts)
-        -- map('n', 'çn', vim.diagnostic.goto_next, merge(opts, { desc = 'Move to the next diagnostic' }))
-        -- map('n', 'çp', vim.diagnostic.goto_prev, merge(opts, { desc = 'Move to the previous diagnostic' }))
+        map('n', 'çd', '<Cmd>Telescope diagnostics bufnr=0<CR>', merge(bufopts, { desc = 'LSP Buffer diagnostics' }))
+        -- map('n', 'çn', vim.diagnostic.goto_next, merge(bufopts, { desc = 'Move to the next diagnostic' }))
+        -- map('n', 'çp', vim.diagnostic.goto_prev, merge(bufopts, { desc = 'Move to the previous diagnostic' }))
       end,
     })
 
