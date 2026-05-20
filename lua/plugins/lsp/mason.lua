@@ -2,18 +2,30 @@
 -- https://github.com/williamboman/mason.nvim
 -- https://github.com/williamboman/mason.nvim#default-configuration
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
+local function prepend_mason_bin()
+  local mason_bin = vim.fs.joinpath(vim.fn.stdpath('data'), 'mason', 'bin')
+  local path_sep = package.config:sub(1, 1) == '\\' and ';' or ':'
+  local path = vim.env.PATH or ''
+
+  if not vim.tbl_contains(vim.split(path, path_sep, { plain = true }), mason_bin) then
+    vim.env.PATH = mason_bin .. (path == '' and '' or path_sep .. path)
+  end
+end
+
 return {
-  'williamboman/mason.nvim',
-  dependencies = {
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-    'neovim/nvim-lspconfig',
-  },
-  config = function()
-    -- Easily install and manage LSPs, linters, and formatters
-    -- https://github.com/williamboman/mason.nvim
-    -- https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-    require('mason').setup({
+  {
+    'williamboman/mason.nvim',
+    cmd = {
+      'Mason',
+      'MasonInstall',
+      'MasonUninstall',
+      'MasonUninstallAll',
+      'MasonUpdate',
+      'MasonLog',
+    },
+    init = prepend_mason_bin,
+    opts = {
+      PATH = 'skip',
       ui = {
         border = 'rounded', -- Options: 'none', 'single', 'double', 'rounded', 'solid', 'shadow'
         width = 0.8,
@@ -24,22 +36,42 @@ return {
           package_uninstalled = '󰅙',
         },
       },
-    })
+    },
+  },
 
-    -- Install and upgrade third party tools automatically
-    -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
-    require('mason-tool-installer').setup({
+  -- Install and upgrade third party tools automatically
+  -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+  {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      'williamboman/mason.nvim',
+    },
+    opts = {
       ensure_installed = {
         'hadolint',
         'nginx-config-formatter',
         'prettierd',
         'stylua',
       },
-    })
+      integrations = {
+        ['mason-lspconfig'] = false,
+        ['mason-null-ls'] = false,
+        ['mason-nvim-dap'] = false,
+      },
+    },
+  },
 
-    -- Extension to mason.nvim that makes it easier to use lspconfig with mason
-    -- https://github.com/williamboman/mason-lspconfig.nvim
-    require('mason-lspconfig').setup({
+  -- Extension to mason.nvim that makes it easier to use lspconfig with mason
+  -- https://github.com/williamboman/mason-lspconfig.nvim
+  {
+    'williamboman/mason-lspconfig.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    dependencies = {
+      'williamboman/mason.nvim',
+      'neovim/nvim-lspconfig',
+    },
+    opts = {
       automatic_enable = false,
 
       -- https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
@@ -70,6 +102,6 @@ return {
         'ts_ls',
         'yamlls',
       },
-    })
-  end,
+    },
+  },
 }
