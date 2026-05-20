@@ -1,9 +1,6 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter
 -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#lazynvim
 -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Extra-modules-and-plugins
---
--- TODO: Install nvim-ts-autotag to close and rename HTML tags
--- https://github.com/windwp/nvim-ts-autotag
 return {
   'nvim-treesitter/nvim-treesitter',
   event = { 'BufReadPost', 'BufNewFile' },
