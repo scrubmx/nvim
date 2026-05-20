@@ -6,10 +6,26 @@
 -- https://github.com/windwp/nvim-ts-autotag
 return {
   'nvim-treesitter/nvim-treesitter',
-  -- event = { 'BufReadPre', 'BufNewFile' },
-  -- event = { 'BufReadPost', 'BufNewFile' },
-  -- cmd = { 'TSInstall', 'TSBufEnable', 'TSBufDisable', 'TSModuleInfo' },
-  lazy = false, -- Load on startup
+  event = { 'BufReadPost', 'BufNewFile' },
+  cmd = {
+    'TSBufDisable',
+    'TSBufEnable',
+    'TSBufToggle',
+    'TSConfigInfo',
+    'TSDisable',
+    'TSEditQuery',
+    'TSEditQueryUserAfter',
+    'TSEnable',
+    'TSInstall',
+    'TSInstallFromGrammar',
+    'TSInstallInfo',
+    'TSInstallSync',
+    'TSModuleInfo',
+    'TSToggle',
+    'TSUninstall',
+    'TSUpdate',
+    'TSUpdateSync',
+  },
   branch = 'master',
   build = ':TSUpdate',
   dependencies = {
