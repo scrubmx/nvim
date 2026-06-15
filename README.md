@@ -7,6 +7,10 @@ It provides language-server support, completion, formatting, linting,
 Tree-sitter highlighting, fuzzy finding, Git integration, file navigation, and
 optional AI-assisted completion.
 
+<img width="1350" height="746" alt="Screenshot 2026-06-15 at 11 33 33 a m" src="https://github.com/user-attachments/assets/27bcdd99-e219-43e9-bc9d-6d0e86a9e038" />
+
+<img width="1346" height="746" alt="Screenshot 2026-06-15 at 11 34 13 a m" src="https://github.com/user-attachments/assets/52bcdb8f-6530-4ae6-9dbf-64b49724f2d2" />
+
 ## Features
 
 - Plugin management with `lazy.nvim`
