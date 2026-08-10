@@ -29,8 +29,9 @@ return {
       html = { 'null-ls', 'html' },
       json = { 'null-ls', 'jsonls' },
       jsonc = { 'null-ls', 'jsonls' },
+      env = { 'null-ls' },
 
-      php = { 'intelephense' },
+      php = { 'null-ls', 'intelephense' },
 
       elixir = { 'null-ls' },
       eelixir = { 'null-ls' },
@@ -206,9 +207,10 @@ return {
       -- 'cssls',        -- CSS
       -- 'dockerls',     -- Docker
       -- 'elixirls',     -- Elixir
-      'eslint',       -- ESLint
+      'eslint', -- ESLint
       -- 'html',         -- HTML
       'intelephense', -- PHP
+      'laravel_lsp', -- Laravel
       -- 'jsonls',       -- JSON
       -- 'marksman',     -- Markdown
       'tailwindcss', -- Tailwind CSS
