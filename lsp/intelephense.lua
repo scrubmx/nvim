@@ -32,11 +32,9 @@ return {
   root_dir = function(bufnr, on_dir)
     local fname = vim.api.nvim_buf_get_name(bufnr)
     local cwd = assert(vim.uv.cwd())
-    local root = vim.fs.root(fname, { 'composer.json', '.git' })
-
-    if not root then
-      return
-    end
+    -- Intelephense is useful for standalone PHP files too. If no project
+    -- marker exists, use the file's directory as its workspace root.
+    local root = vim.fs.root(fname, { 'composer.json', '.git' }) or vim.fs.dirname(fname) or cwd
 
     -- Prefer cwd if root is a descendant.
     on_dir(vim.fs.relpath(cwd, root) and cwd or root)
