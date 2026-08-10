@@ -34,8 +34,10 @@ function M.apply()
   vim.api.nvim_set_hl(0, '@markup.italic', { fg = colors.text })
 
   -- Make LSP hover panels readable against the transparent editor background.
-  vim.api.nvim_set_hl(0, 'NormalFloat', { fg = colors.text, bg = colors.base })
-  vim.api.nvim_set_hl(0, 'FloatBorder', { fg = colors.base, bg = colors.base })
+  -- vim.api.nvim_set_hl(0, 'NormalFloat', { fg = colors.text, bg = colors.base })
+  -- vim.api.nvim_set_hl(0, 'FloatBorder', { fg = colors.base, bg = colors.base })
+  -- vim.api.nvim_set_hl(0, 'FloatShadow', { bg = colors.crust, blend = 30 })
+  -- vim.api.nvim_set_hl(0, 'FloatShadowThrough', { bg = colors.crust, blend = 30 })
   vim.api.nvim_set_hl(0, 'RenderMarkdownCode', { bg = colors.surface0 })
   vim.api.nvim_set_hl(0, 'RenderMarkdownCodeInline', { bg = colors.surface0 })
   -- vim.api.nvim_set_hl(0, "BorderBG", { fg = colors.overlay2 })
