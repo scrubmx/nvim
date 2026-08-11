@@ -49,8 +49,10 @@ return {
     },
     opts = {
       ensure_installed = {
+        'dotenv-linter',
         'hadolint',
         'nginx-config-formatter',
+        'pint',
         'prettierd',
         'stylua',
       },

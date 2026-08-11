@@ -119,6 +119,27 @@ return {
       },
     })
 
+    -- tree-sitter-php 0.24 exposes "yield from" as one token, but the
+    -- current php_only query still refers to a standalone "from" node.
+    local php_parser = vim.api.nvim_get_runtime_file('parser/php.so', false)[1]
+    if php_parser then
+      pcall(vim.treesitter.language.add, 'php', { path = php_parser })
+    end
+    local php_ok, php_language = pcall(vim.treesitter.language.inspect, 'php')
+    if php_ok and not php_language.symbols['"from"'] and php_language.symbols['"yield from"'] ~= nil then
+      local query_file = vim.api.nvim_get_runtime_file('queries/php_only/highlights.scm', false)[1]
+      if query_file then
+        local query = table.concat(vim.fn.readfile(query_file), '\n')
+        if query:find('"from" @keyword.return', 1, true) or query:find('"?>"', 1, true) then
+          vim.treesitter.query.set(
+            'php',
+            'highlights',
+            query:gsub('"from"', '"yield from"'):gsub('"%?>"', '(php_end_tag)')
+          )
+        end
+      end
+    end
+
     -- Auto close and auto rename html tags
     -- https://github.com/windwp/nvim-ts-autotag
     -- https://github.com/windwp/nvim-ts-autotag#setup

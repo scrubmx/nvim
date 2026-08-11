@@ -10,6 +10,21 @@ return {
   },
   config = function()
     local null_ls = require('null-ls')
+    local helpers = require('null-ls.helpers')
+    local methods = require('null-ls.methods')
+
+    local dotenv_linter_fix = helpers.make_builtin({
+      name = 'dotenv_linter_fix',
+      method = methods.internal.FORMATTING,
+      filetypes = { 'env', 'dotenv' },
+      generator_opts = {
+        command = 'dotenv-linter',
+        args = { '--quiet', 'fix', '$FILENAME' },
+        to_temp_file = true,
+        from_temp_file = true,
+      },
+      factory = helpers.formatter_factory,
+    })
 
     null_ls.setup({
       -- Built-in Sources
@@ -40,7 +55,8 @@ return {
         -- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#formatting
         -- null_ls.builtins.formatting.markdownlint,
         -- null_ls.builtins.formatting.phpcsfixer,
-        -- null_ls.builtins.formatting.pint,
+        null_ls.builtins.formatting.pint,
+        dotenv_linter_fix,
         null_ls.builtins.formatting.mix,
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.prettierd,

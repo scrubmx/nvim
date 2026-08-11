@@ -11,6 +11,14 @@ return {
     'hrsh7th/cmp-nvim-lsp',
   },
   config = function()
+    local hover_opts = {
+      border = 'rounded',
+      focusable = true,
+      focus = false,
+      max_width = 100,
+      max_height = 25,
+    }
+
     -- Prefer external formatters where none-ls is configured, and avoid ts_ls/vtsls
     -- formatting for JavaScript and TypeScript buffers.
     local format_client_priority_by_ft = {
@@ -29,8 +37,9 @@ return {
       html = { 'null-ls', 'html' },
       json = { 'null-ls', 'jsonls' },
       jsonc = { 'null-ls', 'jsonls' },
+      env = { 'null-ls' },
 
-      php = { 'intelephense' },
+      php = { 'null-ls', 'intelephense' },
 
       elixir = { 'null-ls' },
       eelixir = { 'null-ls' },
@@ -126,7 +135,9 @@ return {
         --]]
         map('n', 'gr', vim.lsp.buf.rename, merge(bufopts, { desc = 'LSP Rename all symbol references' }))
         map('n', 'gd', vim.lsp.buf.definition, merge(bufopts, { desc = 'LSP Jump to symbol definition' }))
-        map('n', 'K', vim.lsp.buf.hover, merge(bufopts, { desc = 'LSP Display symbol information' }))
+        map('n', 'K', function()
+          vim.lsp.buf.hover(hover_opts)
+        end, merge(bufopts, { desc = 'LSP Display symbol information' }))
         map('n', '<C-k>', vim.lsp.buf.signature_help, merge(bufopts, { desc = 'LSP Display signature information' }))
         map('n', '<Space>f', function()
           local client = select_format_client(event.buf)
@@ -176,24 +187,17 @@ return {
     local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
     local capabilities = vim.tbl_deep_extend('force', lsp_capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-    -- -- Add the border on hover and on signature help popup window
-    -- local handlers = {
-    --   ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-    --     border = 'rounded',
-    --     focusable = false,
-    --     max_width = 100,
-    --     max_height = 25,
-    --     highlight = 'NormalFloat',
-    --   }),
-    --   ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    --     border = 'rounded',
-    --     focusable = false,
-    --   }),
-    -- }
+    -- Add a visible border and background to LSP hover panels.
+    local hover_handler = vim.lsp.with(vim.lsp.handlers.hover, hover_opts)
+    local handlers = { ['textDocument/hover'] = hover_handler }
+
+    -- Keep the override active for clients that use the global handler table.
+    vim.lsp.handlers['textDocument/hover'] = hover_handler
 
     -- Nvim 11.0+ supports the `vim.lsp.config` function to configure LSP servers
     vim.lsp.config('*', {
       capabilities = capabilities,
+      handlers = handlers,
     })
 
     -- "ts_ls" or "vtsls" for TypeScript
@@ -205,10 +209,11 @@ return {
       'lua_ls', -- Lua
       -- 'cssls',        -- CSS
       -- 'dockerls',     -- Docker
-      -- 'elixirls',     -- Elixir
-      'eslint',       -- ESLint
+      'elixirls',     -- Elixir
+      'eslint', -- ESLint
       -- 'html',         -- HTML
       'intelephense', -- PHP
+      'laravel_lsp', -- Laravel
       -- 'jsonls',       -- JSON
       -- 'marksman',     -- Markdown
       'tailwindcss', -- Tailwind CSS
