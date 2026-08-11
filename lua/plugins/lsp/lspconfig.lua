@@ -212,11 +212,11 @@ return {
       'laravel_lsp', -- Laravel
       'lua_ls', -- Lua
       'tailwindcss', -- Tailwind CSS
+      'jsonls', -- JSON
       -- 'biome', -- Biome = Eslint + Prettier
       -- 'cssls', -- CSS
       -- 'dockerls', -- Docker
       -- 'html', -- HTML
-      -- 'jsonls', -- JSON
       -- 'marksman', -- Markdown
       -- 'pyright', -- Python
       -- 'yamlls', -- YAML
