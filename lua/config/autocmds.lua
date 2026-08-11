@@ -68,6 +68,23 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 highlights.apply()
 
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Enable JSON LSP for scratch buffers',
+  pattern = { 'json', 'jsonc' },
+  callback = function()
+    vim.lsp.enable('jsonls')
+    vim.keymap.set('n', '<Space>f', function()
+      vim.lsp.buf.format({
+        async = true,
+        bufnr = 0,
+        filter = function(client)
+          return client.name == 'jsonls'
+        end,
+      })
+    end, { buffer = 0, silent = true, noremap = true, desc = 'LSP Format JSON' })
+  end,
+})
+
 -- DEPRECATED RePLACED by ftplugin/norg.lua
 -- Set conceallevel to conceal links and other stuff in norg files
 -- See `:help conceallevel`
