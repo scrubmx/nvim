@@ -209,7 +209,7 @@ return {
       'lua_ls', -- Lua
       -- 'cssls',        -- CSS
       -- 'dockerls',     -- Docker
-      -- 'elixirls',     -- Elixir
+      'elixirls',     -- Elixir
       'eslint', -- ESLint
       -- 'html',         -- HTML
       'intelephense', -- PHP
