@@ -41,9 +41,9 @@ return {
 
       php = { 'null-ls', 'intelephense' },
 
-      elixir = { 'null-ls' },
-      eelixir = { 'null-ls' },
-      heex = { 'null-ls' },
+      elixir = { 'null-ls', 'expert' },
+      eelixir = { 'null-ls', 'expert' },
+      heex = { 'null-ls', 'expert' },
       nginx = { 'null-ls' },
     }
 
@@ -205,21 +205,21 @@ return {
 
     -- Enable LSP servers for Neovim 0.11+
     vim.lsp.enable({
-      ts_server,
-      'lua_ls', -- Lua
-      -- 'cssls',        -- CSS
-      -- 'dockerls',     -- Docker
-      'elixirls',     -- Elixir
+      ts_server, -- TypeScript
       'eslint', -- ESLint
-      -- 'html',         -- HTML
+      'expert', -- Elixir
       'intelephense', -- PHP
       'laravel_lsp', -- Laravel
-      -- 'jsonls',       -- JSON
-      -- 'marksman',     -- Markdown
+      'lua_ls', -- Lua
       'tailwindcss', -- Tailwind CSS
-      -- 'yamlls',       -- YAML
-      -- 'biome',       -- Biome = Eslint + Prettier
-      -- 'pyright',     -- Python
+      -- 'biome', -- Biome = Eslint + Prettier
+      -- 'cssls', -- CSS
+      -- 'dockerls', -- Docker
+      -- 'html', -- HTML
+      -- 'jsonls', -- JSON
+      -- 'marksman', -- Markdown
+      -- 'pyright', -- Python
+      -- 'yamlls', -- YAML
     })
 
     -- Load Lsp on-demand, e.g: eslint is disable by default
