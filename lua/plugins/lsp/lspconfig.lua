@@ -207,19 +207,26 @@ return {
     -- Enable LSP servers for Neovim 0.11+
     vim.lsp.enable({
       ts_server, -- TypeScript
+      'bashls', -- Bash
+      'dockerls', -- Docker
       'eslint', -- ESLint
       'expert', -- Elixir
       'intelephense', -- PHP
+      'jsonls', -- JSON
       'laravel_lsp', -- Laravel
       'lua_ls', -- Lua
       'tailwindcss', -- Tailwind CSS
-      'jsonls', -- JSON
       -- 'biome', -- Biome = Eslint + Prettier
+      -- 'cmake', -- Makefile
       -- 'cssls', -- CSS
-      -- 'dockerls', -- Docker
+      -- 'dotls', -- Graphviz
+      -- 'emmet_ls', -- Emmet
+      -- 'graphql', -- GraphQL
       -- 'html', -- HTML
       -- 'marksman', -- Markdown
-      -- 'pyright', -- Python
+      -- 'pylsp', -- Python (Use `pyright` or `basedpyright` instead)
+      -- 'pyright', -- Python (Not installed)
+      -- 'basedpyright', Pure Python (Not installed)
       -- 'yamlls', -- YAML
     })
 
