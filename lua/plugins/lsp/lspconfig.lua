@@ -215,6 +215,7 @@ return {
       'jsonls', -- JSON
       'laravel_lsp', -- Laravel
       'lua_ls', -- Lua
+      'basedpyright', -- Python
       'tailwindcss', -- Tailwind CSS
       -- 'biome', -- Biome = Eslint + Prettier
       -- 'cmake', -- Makefile
@@ -226,7 +227,6 @@ return {
       -- 'marksman', -- Markdown
       -- 'pylsp', -- Python (Use `pyright` or `basedpyright` instead)
       -- 'pyright', -- Python (Not installed)
-      -- 'basedpyright', Pure Python (Not installed)
       -- 'yamlls', -- YAML
     })
 

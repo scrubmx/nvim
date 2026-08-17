@@ -100,7 +100,7 @@ return {
         'jsonls',
         'lua_ls',
         'marksman',
-        'pylsp',
+        'basedpyright',
         'tailwindcss',
         'ts_ls',
         'yamlls',
