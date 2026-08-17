@@ -156,12 +156,22 @@ return {
             return
           end
 
+          if client.name == 'ruff' then
+            for _, diagnostic in ipairs(vim.diagnostic.get(event.buf)) do
+              if diagnostic.source == 'Ruff' and diagnostic.code == 'invalid-syntax' then
+                vim.notify(
+                  ('Ruff cannot format line %d: %s'):format(diagnostic.lnum + 1, diagnostic.message),
+                  vim.log.levels.WARN
+                )
+                return
+              end
+            end
+          end
+
           vim.lsp.buf.format({
-            async = true,
             bufnr = event.buf,
-            filter = function(format_client)
-              return format_client.id == client.id
-            end,
+            id = client.id,
+            timeout_ms = 5000,
           })
         end, merge(bufopts, { desc = 'LSP Format the current buffer' }))
         map(
