@@ -55,6 +55,7 @@ return {
         'expert',
         'pint',
         'prettierd',
+        'shfmt',
         'stylua',
       },
       integrations = {

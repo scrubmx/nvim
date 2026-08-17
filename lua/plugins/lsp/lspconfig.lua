@@ -45,6 +45,7 @@ return {
       eelixir = { 'null-ls', 'expert' },
       heex = { 'null-ls', 'expert' },
       nginx = { 'null-ls' },
+      zsh = { 'null-ls' },
     }
 
     local function select_format_client(bufnr)
