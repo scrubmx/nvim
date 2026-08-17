@@ -24,6 +24,8 @@ return {
     local format_client_priority_by_ft = {
       lua = { 'null-ls', 'lua_ls' },
 
+      python = { 'ruff' },
+
       javascript = { 'null-ls', 'eslint' },
       javascriptreact = { 'null-ls', 'eslint' },
       ['javascript.jsx'] = { 'null-ls', 'eslint' },
@@ -86,6 +88,12 @@ return {
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('LspConfigGroup', { clear = true }),
       callback = function(event)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+        if client and client.name == 'ruff' then
+          client.server_capabilities.hoverProvider = false
+        end
+
         local map = vim.keymap.set
         local merge = function(table, extra)
           return vim.tbl_extend('keep', table, extra)
@@ -216,6 +224,7 @@ return {
       'laravel_lsp', -- Laravel
       'lua_ls', -- Lua
       'basedpyright', -- Python
+      'ruff', -- Python linting and formatting
       'tailwindcss', -- Tailwind CSS
       -- 'biome', -- Biome = Eslint + Prettier
       -- 'cmake', -- Makefile

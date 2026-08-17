@@ -101,6 +101,7 @@ return {
         'lua_ls',
         'marksman',
         'basedpyright',
+        'ruff',
         'tailwindcss',
         'ts_ls',
         'yamlls',
