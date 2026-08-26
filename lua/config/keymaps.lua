@@ -77,10 +77,10 @@ vim.keymap.set('n', 'J', 'mzJ`z', { noremap = true, silent = true })
 -- TODO: Figure out how to make this work with having to press space after
 vim.keymap.set('n', '<Leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { noremap = true, silent = true })
 
--- Toggle inline hinting for LSP
+-- Toggle inline hinting for LSPs
 vim.keymap.set('n', '<Leader>h', function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-  vim.notify(vim.lsp.inlay_hint.is_enabled() and "Inlay Hints Enabled" or "Inlay Hints Disabled")
+  vim.notify(vim.lsp.inlay_hint.is_enabled() and "Inlay hints enabled" or "Inlay hints disabled")
 end)
 
 -------------------------------------------------

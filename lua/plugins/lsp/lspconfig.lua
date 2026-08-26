@@ -19,7 +19,7 @@ return {
       max_height = 25,
     }
 
-    -- Prefer external formatters where none-ls is configured, and avoid ts_ls/vtsls
+    -- Prefer external formatters where none-ls is configured, and avoid vtsls
     -- formatting for JavaScript and TypeScript buffers.
     local format_client_priority_by_ft = {
       lua = { 'null-ls', 'lua_ls' },
@@ -219,12 +219,9 @@ return {
       handlers = handlers,
     })
 
-    -- "ts_ls" or "vtsls" for TypeScript
-    local ts_server = vim.g.lsp_typescript_server or 'ts_ls'
-
     -- Enable LSP servers for Neovim 0.11+
     vim.lsp.enable({
-      ts_server, -- TypeScript
+      'vtsls', -- TypeScript
       'bashls', -- Bash
       'dockerls', -- Docker
       'eslint', -- ESLint

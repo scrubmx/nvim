@@ -103,7 +103,7 @@ return {
         'basedpyright',
         'ruff',
         'tailwindcss',
-        'ts_ls',
+        'vtsls',
         'yamlls',
       },
     },
