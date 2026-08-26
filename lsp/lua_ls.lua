@@ -121,6 +121,15 @@ return {
         globals = { 'vim' },
         neededFileStatus = { ['codestyle-check'] = 'Any' },
       },
+      hint = {
+        enable = true, -- Enable inlay hints globally
+        paramName = 'All', -- Parameter name hints: "All" | "Literal" | "Disable"
+        paramType = true, -- Function parameter type hints
+        setType = true, -- Assignment type hints
+        arrayIndex = 'Auto', -- Array index hints: "Enable" | "Auto" | "Disable"
+        await = true, -- Await hints
+        semicolon = 'All', -- Semicolon hints: "All" | "SameLine" | "Disable"
+      },
       telemetry = {
         enable = false,
       },

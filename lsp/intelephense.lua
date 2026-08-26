@@ -42,4 +42,13 @@ return {
   init_options = {
     licenseKey = '/Users/scrub/intelephense/licence.txt',
   },
+  settings = {
+    intelephense = {
+      inlayHint = {
+        returnTypes = true, -- Function return type hints
+        parameterTypes = true, -- Anonymous function parameter type hints
+        parameterNames = true, -- Call argument parameter name hints
+      },
+    },
+  },
 }

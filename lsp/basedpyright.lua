@@ -1,3 +1,5 @@
+---@brief
+---
 --- https://github.com/detachhead/basedpyright
 ---
 --- Basedpyright is a fork of [pyright](https://github.com/microsoft/pyright)
@@ -20,5 +22,18 @@ return {
     'Pipfile',
     'pyrightconfig.json',
     '.git',
+  },
+  settings = {
+    basedpyright = {
+      analysis = {
+        inlayHints = {
+          variableTypes = true, -- Variable type hints
+          callArgumentNames = true, -- Function argument name hints
+          callArgumentNamesMatching = false, -- Show even when arg name matches param name
+          functionReturnTypes = true, -- Function return type hints
+          genericTypes = true, -- Inferred generic type hints
+        },
+      },
+    },
   },
 }
