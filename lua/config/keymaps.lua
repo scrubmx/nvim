@@ -109,8 +109,16 @@ local function copy_ref(opts)
     if start_line > end_line then
       start_line, end_line = end_line, start_line
     end
-    -- append the range, e.g. "lua/config/keymaps.lua:1:23"
-    ref = path .. ':' .. start_line .. ':' .. end_line
+    -- Single-line selections use the last selected column; multi-line selections use the end line.
+    local end_position = end_line
+    if start_line == end_line then
+      local region = vim.fn.getregionpos(vim.fn.getpos('v'), vim.fn.getpos('.'), {
+        type = vim.fn.mode(),
+        exclusive = vim.o.selection == 'exclusive',
+      })
+      end_position = region[1][2][3]
+    end
+    ref = path .. ':' .. start_line .. ':' .. end_position
   end
 
   -- ask for an optional free-text note on the command line (Enter to skip)
@@ -131,10 +139,10 @@ vim.keymap.set('n', '<leader>cp', function()
   copy_ref({})
 end, { desc = 'Copy file path' })
 
--- Visual mode: copy the file path plus the selected line range
+-- Visual mode: copy the file path plus the line/end column or multi-line range
 vim.keymap.set('v', '<leader>cp', function()
   copy_ref({ visual = true })
-end, { desc = 'Copy file path with line range' })
+end, { desc = 'Copy file path with selection reference' })
 
 -------------------------------------------------
 -- VIM hard mode (disable backspace and arrows)
