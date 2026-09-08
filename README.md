@@ -16,7 +16,8 @@ optional AI-assisted completion.
 - Plugin management with `lazy.nvim`
 - LSP server and developer-tool management with Mason
 - Completion with `nvim-cmp`
-- Formatting and diagnostics with `none-ls`
+- Formatting and diagnostics with `none-ls` and Ruff
+- Inlay-hint settings for TypeScript, Python, Lua, and PHP, with a toggle
 - Syntax highlighting, indentation, autotagging, and endwise support with
   Tree-sitter
 - File and text search with Telescope
@@ -69,9 +70,10 @@ nvim
 ```
 
 On first launch, `lazy.nvim` is cloned automatically and installs the configured
-plugins. Mason then installs the configured language servers, linters, and
-formatters. Some tools may require their language runtime or package manager to
-already be installed.
+plugins. Mason installs the configured language servers when a file is opened,
+and the developer-tool installer runs after startup. Some tools may require
+their language runtime or package manager to already be installed. Laravel's
+language server must be installed separately (see below).
 
 After installation, verify the setup:
 
@@ -87,9 +89,41 @@ Review these settings after cloning:
 
 - `init.lua` contains a Homebrew-specific FZF runtime path.
 - `lsp/intelephense.lua` contains a local Intelephense license-file path.
+- `lsp/laravel_lsp.lua` expects a separately installed Laravel language server at
+  `~/.composer/vendor/bin/laravel-lsp`; adjust it to match your Composer setup.
 - `lua/plugins/neorg.lua` contains local Neorg workspace paths.
 - AI completion plugins require separate authentication and may be disabled if
   they are not needed.
+
+## Language Support and Formatting
+
+The enabled servers are configured in `lua/plugins/lsp/lspconfig.lua`, with
+per-server settings in `lsp/`:
+
+| Language / tooling      | Enabled server                                                           |
+| ----------------------- | ------------------------------------------------------------------------ |
+| JavaScript / TypeScript | `vtsls` and `eslint`                                                     |
+| Python                  | `basedpyright` for language features and Ruff for linting and formatting |
+| PHP / Laravel           | `intelephense` and `laravel_lsp` (Laravel projects only)                 |
+| Elixir / HEEx           | `expert`                                                                 |
+| Lua                     | `lua_ls`                                                                 |
+| Bash                    | `bashls`                                                                 |
+| Docker                  | `dockerls`                                                               |
+| JSON / JSONC            | `jsonls`                                                                 |
+| Tailwind CSS            | `tailwindcss`                                                            |
+
+Mason installs additional servers that are not enabled by default. Installing a
+server or adding a file under `lsp/` does not automatically enable it.
+
+Press `Space f` to format the current buffer. Formatting prefers the configured
+`none-ls` tools, including Prettierd, Pint, StyLua, and `mix format`; Python uses
+Ruff. JavaScript and TypeScript formatting prefers Prettierd through `none-ls`,
+with ESLint as a fallback. Zsh uses `shfmt` for formatting and `zsh` for
+diagnostics. The corresponding runtimes and executables must be available.
+
+Intelephense also supports standalone PHP files, and JSON/JSONC scratch buffers
+have a formatting mapping. When `vtsls` attaches, the buffer-local
+`:LspTypescriptSourceAction` command exposes TypeScript source actions.
 
 ## Key Bindings
 
@@ -104,9 +138,24 @@ Review these settings after cloning:
 | `,fd`          | List diagnostics                                   |
 | `,fv`          | Search Neovim configuration files                  |
 | `,bd`          | Delete the current buffer                          |
+| `,h`           | Toggle LSP inlay hints                             |
+| `,cp`          | Copy file path or visual selection reference       |
+| `Space f`      | Format the current buffer                          |
+| `Space a`      | Show code actions (normal or visual mode)          |
+| `gd`           | Go to definition                                   |
+| `gr`           | Rename symbol                                      |
+| `K`            | Show hover information                             |
 | `ss`           | Create a horizontal split                          |
 | `sv`           | Create a vertical split                            |
 | `Ctrl-h/j/k/l` | Navigate Vim splits and tmux panes                 |
+
+LSP bindings are available after a language server attaches. `Space` above is
+the space bar; the leader remains `,`.
+
+`,cp` copies the path relative to the current working directory to the system
+clipboard. In visual mode it appends `:line:end_column` for a single-line
+selection or `:start_line:end_line` for a multi-line selection. Both modes prompt
+for an optional note to append; press Enter to skip it.
 
 Run `:Telescope keymaps` or open `,` and wait for WhichKey to discover more
 bindings.
