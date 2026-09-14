@@ -250,3 +250,10 @@ vim.keymap.set('n', 'sv', '<Cmd>vsplit<Return><C-w>l', { silent = true })
 -- <Cmd>cprev                    Go to the previous quickfix entry
 -- <Cmd>cdo                      Run a commands on quickfix entries
 -- <Cmd>cdo s/term/replace/gc    Replace term on each of the quickfix entries
+
+-------------------------------------------------
+-- Incremental selection
+-------------------------------------------------
+
+-- v in         Decrease selection inner
+-- v an         Increase selection outer
