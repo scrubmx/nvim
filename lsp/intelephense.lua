@@ -36,8 +36,7 @@ return {
     -- marker exists, use the file's directory as its workspace root.
     local root = vim.fs.root(fname, { 'composer.json', '.git' }) or vim.fs.dirname(fname) or cwd
 
-    -- Prefer cwd if root is a descendant.
-    on_dir(vim.fs.relpath(cwd, root) and cwd or root)
+    on_dir(root)
   end,
   init_options = {
     licenseKey = '/Users/scrub/intelephense/licence.txt',

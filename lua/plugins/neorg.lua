@@ -65,13 +65,6 @@ return {
             engine = 'nvim-cmp',
           },
         },
-        -- Fix norg_neta parser not found error
-        ['core.integrations.treesitter'] = {
-          config = {
-            configure_parsers = false,
-            warn_missing_parsers = false,
-          },
-        },
         ['core.dirman'] = {
           config = {
             workspaces = {

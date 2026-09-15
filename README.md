@@ -131,7 +131,7 @@ have a formatting mapping. When `vtsls` attaches, the buffer-local
 | -------------- | -------------------------------------------------- |
 | `,1`           | Toggle Neo-tree                                    |
 | `,ff`          | Find files                                         |
-| `,fa`          | Find all files, including hidden and ignored files |
+| `,fa`          | Find all files, including hidden, ignored, and Git internals |
 | `,fg`          | Search text with live grep                         |
 | `,fb`          | Open Telescope file browser                        |
 | `,fo`          | List open buffers                                  |

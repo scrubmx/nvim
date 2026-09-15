@@ -30,7 +30,13 @@ return {
     --
     -- TIP: `:Telescope builtin` to explore all available commands
     { '<Leader>ff', '<Cmd>Telescope find_files<CR>' },
-    { '<Leader>fa', '<Cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>', desc = 'Telescope find_all' },
+    {
+      '<Leader>fa',
+      function()
+        require('telescope.builtin').find_files({ follow = true, no_ignore = true, hidden = true, file_ignore_patterns = {} })
+      end,
+      desc = 'Telescope find_all',
+    },
     { '<Leader>fb', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>' },
     { '<Leader>fi', '<Cmd>Telescope current_buffer_fuzzy_find<CR>' },
     { '<Leader>fw', '<Cmd>Telescope lsp_workspace_symbols<CR>' },
@@ -96,18 +102,18 @@ return {
           preview_cutoff = 120,
         },
         file_ignore_patterns = {
-          '.DS_Store',
-          '.git',
-          '.idea',
-          '.next',
-          '.vscode',
-          'bootstrap/cache/',
-          'node_modules/',
-          'public/css/',
-          'public/js/',
-          'storage/app/',
-          'storage/debugbar/',
-          'storage/framework/',
+          '^%.DS_Store$', '/%.DS_Store$',
+          '^%.git/', '/%.git/',
+          '^%.idea/', '/%.idea/',
+          '^%.next/', '/%.next/',
+          '^%.vscode/', '/%.vscode/',
+          '^bootstrap/cache/', '/bootstrap/cache/',
+          '^node_modules/', '/node_modules/',
+          '^public/css/', '/public/css/',
+          '^public/js/', '/public/js/',
+          '^storage/app/', '/storage/app/',
+          '^storage/debugbar/', '/storage/debugbar/',
+          '^storage/framework/', '/storage/framework/',
         },
         -- https://github.com/nvim-telescope/telescope-file-browser.nvim#mappings
         mappings = {

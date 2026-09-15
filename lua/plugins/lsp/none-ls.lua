@@ -63,8 +63,11 @@ return {
         null_ls.builtins.formatting.prettierd,
         null_ls.builtins.formatting.nginx_beautifier,
         null_ls.builtins.formatting.shfmt.with({
-          extra_filetypes = { 'zsh' },
-          args = { '-ln', 'zsh', '-i', '2', '-ci', '-sr' },
+          extra_args = { '-i', '2', '-ci', '-sr' },
+        }),
+        null_ls.builtins.formatting.shfmt.with({
+          filetypes = { 'zsh' },
+          extra_args = { '-ln', 'zsh', '-i', '2', '-ci', '-sr' },
         }),
 
         -- Hover
