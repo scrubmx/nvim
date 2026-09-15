@@ -114,12 +114,12 @@
     },
     "Use sized Next Image component": {
         "prefix": "usim",
-        "body": "<Image alt=\"$1\" src=\"$1\" width=\"$1\" height=\"$1\" />",
+        "body": "<Image alt=\"$1\" src=\"$2\" width=\"$3\" height=\"$4\" />",
         "description": "Use sized Next Image component"
     },
     "Use unsized Next Image component": {
         "prefix": "usimu",
-        "body": "<Image alt=\"$1\" src=\"$1\" unsized=\"$1\" />",
+        "body": "<Image alt=\"$1\" src=\"$2\" unsized=\"$3\" />",
         "description": "Use sized Next Image component"
     }
 }

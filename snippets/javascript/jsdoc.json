@@ -35,7 +35,7 @@
     "virtual": {
         "prefix": "@virtual",
         "body": [
-            "@virlual$0"
+            "@virtual$0"
         ],
         "description": "This member must be implemented (or overridden) by the inheritor. Synonysm of @abstract."
     },
@@ -474,7 +474,7 @@
         "description": "The @protected tag marks a symbol as protected. Typically, this tag indicates that a symbol is only available, or should only be used, within the current module."
     },
     "public": {
-        "prefix": "@publilc",
+        "prefix": "@public",
         "body": [
             "@public$0"
         ],

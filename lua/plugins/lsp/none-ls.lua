@@ -33,7 +33,6 @@ return {
       sources = {
         -- Code Actions
         -- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#code-actions
-        null_ls.builtins.code_actions.refactoring,
 
         -- Completion
         -- https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md#completion
@@ -61,7 +60,7 @@ return {
         null_ls.builtins.formatting.mix,
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.prettierd,
-        null_ls.builtins.formatting.nginx_beautifier,
+        require('none-ls.formatting.nginx_config_formatter'),
         null_ls.builtins.formatting.shfmt.with({
           extra_args = { '-i', '2', '-ci', '-sr' },
         }),

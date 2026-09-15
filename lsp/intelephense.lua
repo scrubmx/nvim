@@ -39,7 +39,7 @@ return {
     on_dir(root)
   end,
   init_options = {
-    licenseKey = '/Users/scrub/intelephense/licence.txt',
+    licenceKey = '/Users/scrub/intelephense/licence.txt',
   },
   settings = {
     intelephense = {

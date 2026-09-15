@@ -45,6 +45,13 @@ return {
       delete_check_events = 'InsertLeave',
     })
 
+    luasnip.filetype_extend('lua', { 'luadoc' })
+    luasnip.filetype_extend('php', { 'phpdoc' })
+    luasnip.filetype_extend('javascript', { 'jsdoc' })
+    luasnip.filetype_extend('javascriptreact', { 'jsdoc' })
+    luasnip.filetype_extend('typescript', { 'tsdoc' })
+    luasnip.filetype_extend('typescriptreact', { 'tsdoc' })
+
     -- Load custom user snipets
     -- https://github.com/L3MON4D3/LuaSnip#add-snippets
     require('luasnip.loaders.from_vscode').lazy_load({ paths = { '~/.config/nvim/snippets' } })

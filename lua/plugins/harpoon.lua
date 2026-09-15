@@ -11,9 +11,8 @@ return {
     local harpoon = require('harpoon')
 
     harpoon:setup({
-      global_settings = {
-        save_on_toggle = true, -- Save marks when toggling the menu
-        save_on_change = true, -- Save marks when changing buffers
+      settings = {
+        save_on_toggle = true, -- Apply menu edits to the list when closing it
       },
       menu = {
         width = vim.api.nvim_win_get_width(0) - 4, -- Set menu width to current window width minus padding

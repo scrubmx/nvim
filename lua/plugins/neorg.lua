@@ -51,9 +51,9 @@ return {
       -- { '<Leader>nd',  '<Cmd>Neorg insert date<CR>', desc = 'Insert Neorg Date' },
       { '<Leader>ni', '<Cmd>Neorg index<CR>',             desc = 'Neorg Index' },
       -- { '<Leader>nn', '<Cmd>Neorg new note<CR>',          desc = 'New Neorg Note' },
-      { '<Leader>ns', '<Cmd>Neorg summary<CR>',           desc = 'Neorg Summary' },
+      { '<Leader>ns', '<Cmd>Neorg generate-workspace-summary<CR>', ft = 'norg', desc = 'Neorg Summary' },
       { '<Leader>nt', '<Cmd>Neorg toc<CR>',               desc = 'Table of Contents' },
-      { '<Leader>nw', '<Cmd>Neorg toggle workspaces<CR>', desc = 'Toggle Neorg Workspaces' },
+      { '<Leader>nw', ':Neorg workspace ', desc = 'Choose Neorg Workspace' },
     },
     opts = {
       load = {
