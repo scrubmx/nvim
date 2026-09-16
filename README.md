@@ -37,6 +37,8 @@ The leader and local leader keys are both set to `,`.
 - [Neovim](https://neovim.io) 0.11 or newer
 - [Git](https://git-scm.com)
 - `make` and a C compiler for native plugins and Tree-sitter parsers
+- Tree-sitter CLI 0.25.x for parsers that require generation (tested with 0.25.10);
+  the legacy Tree-sitter plugin does not support newer CLI versions
 
 ### Recommended
 
@@ -186,9 +188,9 @@ run `:Lazy restore` to use those revisions. `nvim-lspconfig` is pinned to v2.1.0
 for native Neovim 0.11 LSP configs and compatibility with mason-lspconfig 2.x.
 Tree-sitter stays on its legacy `master` branch; retain the PHP and Markdown
 query compatibility fixes when updating it. This branch supports Neovim 0.10/0.11
-upstream, not 0.12. Local checks on 0.12.5 passed for the 12 enabled LSP configs,
-Mason integration with installation disabled, and 120 Tree-sitter query loads;
-clean-install and full workflow checks on both 0.11 and 0.12 remain pending.
+upstream, not 0.12. Isolated workflow checks passed on Neovim 0.11.5 and 0.12.5,
+including 120 query loads on each. See [VALIDATION.md](VALIDATION.md) for the
+tested workflows, installation retries, and remaining coverage limits.
 
 To intentionally update dependencies:
 

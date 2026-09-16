@@ -219,6 +219,11 @@ return {
       handlers = handlers,
     })
 
+    -- Explicit local overrides take precedence over plugin runtime files.
+    for _, path in ipairs(vim.fn.globpath(vim.fn.stdpath('config'), 'lsp/*.lua', false, true)) do
+      vim.lsp.config(vim.fn.fnamemodify(path, ':t:r'), dofile(path))
+    end
+
     -- Enable LSP servers for Neovim 0.11+
     vim.lsp.enable({
       'vtsls', -- TypeScript
