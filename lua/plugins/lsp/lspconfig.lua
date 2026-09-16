@@ -147,7 +147,7 @@ return {
         map('n', 'K', function()
           vim.lsp.buf.hover(hover_opts)
         end, merge(bufopts, { desc = 'LSP Display symbol information' }))
-        map('n', '<C-k>', vim.lsp.buf.signature_help, merge(bufopts, { desc = 'LSP Display signature information' }))
+        map('n', '<Space>k', vim.lsp.buf.signature_help, merge(bufopts, { desc = 'LSP Display signature information' }))
         map('n', '<Space>f', function()
           local client = select_format_client(event.buf)
 

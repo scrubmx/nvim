@@ -125,6 +125,21 @@ Intelephense also supports standalone PHP files, and JSON/JSONC scratch buffers
 have a formatting mapping. When `vtsls` attaches, the buffer-local
 `:LspTypescriptSourceAction` command exposes TypeScript source actions.
 
+## Autosave
+
+Autosave is enabled by default and loads on the first `InsertLeave` or
+`TextChanged` event. It saves modified, modifiable normal buffers one second
+after either event; entering insert mode cancels a pending deferred save.
+Once loaded, it also saves immediately on `BufLeave`, `WinLeave`, `FocusLost`,
+`QuitPre`, and `VimSuspend`. Special buffers are excluded. Normal write
+autocommands still run, so autosave can trigger other save hooks.
+
+Use `:ASToggle` to toggle autosave for the current session, including before
+its first automatic load. The locked plugin does not cancel an already pending
+timer when toggled off, so that save may still complete. To disable autosave
+at startup, set `opts.enabled = false` in `lua/plugins/auto-save.lua` and restart
+Neovim; `:ASToggle` can still enable it for a session.
+
 ## Key Bindings
 
 | Binding        | Action                                             |
@@ -145,12 +160,14 @@ have a formatting mapping. When `vtsls` attaches, the buffer-local
 | `gd`           | Go to definition                                   |
 | `gr`           | Rename symbol                                      |
 | `K`            | Show hover information                             |
+| `Space k`      | Show signature help                                |
 | `ss`           | Create a horizontal split                          |
 | `sv`           | Create a vertical split                            |
 | `Ctrl-h/j/k/l` | Navigate Vim splits and tmux panes                 |
 
 LSP bindings are available after a language server attaches. `Space` above is
-the space bar; the leader remains `,`.
+the space bar; the leader remains `,`. In normal mode, `Ctrl-k` continues to
+navigate upward after LSP attachment; signature help uses `Space k`.
 
 `,cp` copies the path relative to the current working directory to the system
 clipboard. In visual mode it appends `:line:end_column` for a single-line
