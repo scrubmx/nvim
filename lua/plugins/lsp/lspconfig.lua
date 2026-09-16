@@ -5,7 +5,7 @@
 -- TODO: Checkout https://github.com/SylvanFranklin/.config/blob/main/nvim/lua/sylvanfranklin/plugins/lsp.lua
 return {
   'neovim/nvim-lspconfig',
-  tag = 'v1.8.0',
+  tag = 'v2.1.0', -- Native LSP configs for Neovim 0.11; satisfies mason-lspconfig 2.x.
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'hrsh7th/cmp-nvim-lsp',

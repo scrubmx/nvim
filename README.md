@@ -164,7 +164,16 @@ Arrow keys are intentionally disabled in normal and insert modes.
 
 ## Updating
 
-Pull configuration changes and update plugins:
+The checked-in `lazy-lock.json` records plugin revisions. After pulling changes,
+run `:Lazy restore` to use those revisions. `nvim-lspconfig` is pinned to v2.1.0
+for native Neovim 0.11 LSP configs and compatibility with mason-lspconfig 2.x.
+Tree-sitter stays on its legacy `master` branch; retain the PHP and Markdown
+query compatibility fixes when updating it. This branch supports Neovim 0.10/0.11
+upstream, not 0.12. Local checks on 0.12.5 passed for the 12 enabled LSP configs,
+Mason integration with installation disabled, and 120 Tree-sitter query loads;
+clean-install and full workflow checks on both 0.11 and 0.12 remain pending.
+
+To intentionally update dependencies:
 
 ```sh
 cd ~/.config/nvim
@@ -178,6 +187,10 @@ Then run:
 :MasonUpdate
 :TSUpdate
 ```
+
+Review and test changes to `lazy-lock.json` before committing them. The lockfile
+does not pin Mason tools or LuaRocks packages, and compiled Tree-sitter parsers
+are not captured by it.
 
 ## Structure
 
