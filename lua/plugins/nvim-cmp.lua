@@ -24,6 +24,22 @@ return {
       dependencies = { 'zbirenbaum/copilot.lua' },
       name = 'copilot_cmp',
       opts = { fix_pairs = true },
+      config = function(_, opts)
+        -- copilot-cmp still uses the deprecated client.is_stopped() dot call.
+        local source = require('copilot_cmp.source')
+        source.is_available = function(self)
+          if self.client:is_stopped() or self.client.name ~= 'copilot' then
+            return false
+          end
+
+          return next(vim.lsp.get_clients({
+            bufnr = vim.api.nvim_get_current_buf(),
+            id = self.client.id,
+          })) ~= nil
+        end
+
+        require('copilot_cmp').setup(opts)
+      end,
     },
 
     -- Snippets
