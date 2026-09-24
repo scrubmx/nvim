@@ -107,7 +107,7 @@ return {
       nesting_rules = {},
       filesystem = {
         filtered_items = {
-          visible = true,
+          visible = false, -- `H` To toggle hidden items visibility
           hide_dotfiles = false,
           hide_gitignored = false,
           hide_by_name = {
