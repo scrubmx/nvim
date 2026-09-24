@@ -3,7 +3,7 @@
 -- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
 return {
   'hrsh7th/nvim-cmp',
-  event = 'InsertEnter',
+  event = { 'InsertEnter', 'CmdlineEnter' },
   priority = 50,
   dependencies = {
     -- Autocompletion
