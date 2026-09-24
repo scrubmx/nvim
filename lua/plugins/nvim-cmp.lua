@@ -98,6 +98,7 @@ return {
         { name = 'supermaven', priority = 2, max_item_count = 4 },
         { name = 'nvim_lsp', priority = 3 },
         { name = 'nvim_lsp_signature_help', priority = 3 },
+        { name = 'neorg', priority = 4 },
         { name = 'luasnip', priority = 4 },
         { name = 'nvim_lua', priority = 5 },
         { name = 'buffer', priority = 5 },
