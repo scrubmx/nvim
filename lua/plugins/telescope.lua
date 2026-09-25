@@ -12,7 +12,6 @@ return {
   cmd = 'Telescope',
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
-    { 'nvim-telescope/telescope-ui-select.nvim' }, -- It sets vim.ui.select to telescope
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     { 'nvim-telescope/telescope-file-browser.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
   },
@@ -70,7 +69,6 @@ return {
   config = function()
     local telescope = require('telescope')
     local actions = require('telescope.actions')
-    local themes = require('telescope.themes')
     local fb_actions = telescope.extensions.file_browser.actions
 
     -- https://github.com/nvim-telescope/telescope.nvim/issues/2924#issuecomment-1950667113
@@ -205,16 +203,6 @@ return {
           override_file_sorter = true,
           override_generic_sorter = true,
         },
-
-        -- It sets vim.ui.select to telescope
-        -- https://github.com/nvim-telescope/telescope-ui-select.nvim
-        ['ui-select'] = {
-          themes.get_dropdown({
-            layout_config = {
-              prompt_position = 'top',
-            },
-          }),
-        },
       },
       pickers = {
         buffers = {
@@ -229,7 +217,6 @@ return {
 
     telescope.load_extension('file_browser')
     telescope.load_extension('fzf')
-    telescope.load_extension('ui-select')
     -- TODO: Install other extensions
     -- https://github.com/nvim-telescope/telescope-frecency.nvim#installation
   end,
