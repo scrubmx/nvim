@@ -91,7 +91,7 @@ return {
         ]]
       custom = {
         web = { pattern = '^http', icon = ' ', highlight = 'RenderMarkdownLink' },
-        aws = { pattern = 'figma%.com', icon = '  ', highlight = 'RenderMarkdownLink' },
+        aws = { pattern = 'aws%.amazon%.com', icon = '  ', highlight = 'RenderMarkdownLink' },
         figma = { pattern = 'figma%.com', icon = ' ', highlight = 'RenderMarkdownLink' },
         github = { pattern = 'github%.com', icon = '󰊤 ', highlight = 'RenderMarkdownLink' },
         gitlab = { pattern = 'gitlab%.com', icon = '󰮠 ', highlight = 'RenderMarkdownLink' },
