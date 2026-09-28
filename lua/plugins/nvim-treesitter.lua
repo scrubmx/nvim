@@ -27,9 +27,21 @@ return {
   build = ':TSUpdate',
   dependencies = {
     'RRethy/nvim-treesitter-endwise', -- Wisely add 'end' in Elixir, Lua, Ruby, etc.
-    'windwp/nvim-ts-autotag',         -- Auto close and auto rename HTML tags
+    'windwp/nvim-ts-autotag', -- Auto close and auto rename HTML tags
   },
   config = function()
+    -- The legacy master installer passes --no-bindings, removed in CLI 0.26.
+    -- Set its supported override before setup starts installing parsers.
+    local cli_version = require('nvim-treesitter.utils').ts_cli_version()
+
+    if cli_version and vim.fn.has('nvim-0.10') == 1 and vim.version.ge(cli_version, '0.26.0') then
+      require('nvim-treesitter.install').ts_generate_args = {
+        'generate',
+        '--abi',
+        vim.treesitter.language_version,
+      }
+    end
+
     require('nvim-treesitter.configs').setup({
       -- List of additional nvim-treesitter modules to load
       modules = {},
@@ -145,8 +157,8 @@ return {
     -- https://github.com/windwp/nvim-ts-autotag#setup
     require('nvim-ts-autotag').setup({
       opts = {
-        enable_close = true,          -- Auto close tags
-        enable_rename = true,         -- Auto rename pairs of tags
+        enable_close = true, -- Auto close tags
+        enable_rename = true, -- Auto rename pairs of tags
         enable_close_on_slash = true, -- Auto close on trailing </
       },
     })
