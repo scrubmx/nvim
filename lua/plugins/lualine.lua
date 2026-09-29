@@ -192,6 +192,7 @@ return {
       -- https://github.com/nvim-lualine/lualine.nvim#available-extensions
       extensions = {
         'fugitive',
+        'fzf',
         'lazy',
         'man',
         'mason',
@@ -202,7 +203,6 @@ return {
         -- 'chadtree',
         -- 'ctrlspace',
         -- 'fern',
-        -- 'fzf',
         -- 'mundo',
         -- 'nerdtree',
         -- 'nvim-dap-ui',
