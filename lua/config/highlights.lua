@@ -30,8 +30,8 @@ function M.apply()
   vim.api.nvim_set_hl(0, '@neorg.todo_items.pending.norg', { fg = colors.yellow })
   vim.api.nvim_set_hl(0, '@neorg.todo_items.urgent.norg', { fg = colors.red })
 
-  vim.api.nvim_set_hl(0, '@markup.strong', { fg = colors.text })
-  vim.api.nvim_set_hl(0, '@markup.italic', { fg = colors.text })
+  vim.api.nvim_set_hl(0, '@markup.strong', { fg = colors.text, bold = true })
+  vim.api.nvim_set_hl(0, '@markup.italic', { fg = colors.text, italic = true })
 
   -- Make LSP hover panels readable against the transparent editor background.
   -- vim.api.nvim_set_hl(0, 'NormalFloat', { fg = colors.text, bg = colors.base })
