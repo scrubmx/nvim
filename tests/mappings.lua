@@ -1,5 +1,6 @@
 -- Run with the normal config: make test
 local function check()
+  vim.api.nvim_exec_autocmds('UIEnter', {}) -- Initialize UI plugins in headless Neovim.
   local actions = require('telescope.actions')
   local state = require('telescope.actions.state')
   local function picker()
@@ -14,12 +15,23 @@ local function check()
     return current
   end
 
-  -- Exercise the real user command, Dressing/Telescope selection, and plugin loading.
+  local function plugin_picker()
+    local current
+    assert(
+      vim.wait(1500, function()
+        current = Snacks.picker.get({ source = 'select' })[1]
+        return current and current:count() == 3
+      end, 20),
+      'Expected Mini.Surround, Telescope, and Neo-tree in Snacks'
+    )
+    return current
+  end
+
+  -- Exercise the real user command, Snacks selection, and Telescope plugin loading.
   vim.api.nvim_buf_set_lines(0, 0, -1, false, { 'Keep (this) text unchanged.' })
   vim.cmd.Mappings()
-  local plugins = picker()
-  assert(plugins.manager:num_results() == 3, 'Expected Mini.Surround, Telescope, and Neo-tree')
-  actions.select_default(plugins.prompt_bufnr)
+  local plugins = plugin_picker()
+  plugins:action('confirm')
   local keys = picker()
   assert(keys.prompt_title:find(require('config.mapping_catalog')[1].name, 1, true))
   assert(keys.manager:num_results() == 29, 'Missing installed mappings/modes')
@@ -78,9 +90,8 @@ local function check()
   -- Exercise the actual back binding, then cancel the plugin picker.
   local back = vim.fn.maparg('<C-b>', 'i', false, true)
   back.callback()
-  plugins = picker()
-  assert(plugins.manager:num_results() == 3)
-  actions.close(plugins.prompt_bufnr)
+  plugins = plugin_picker()
+  plugins:close()
 
   -- Command and callback launchers must both appear in the Telescope catalog.
   require('config.mappings').open(require('config.mapping_catalog')[2])

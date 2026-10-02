@@ -171,7 +171,7 @@ function M.open(plugin)
 end
 
 function M.pick()
-  require('lazy').load({ plugins = { 'telescope.nvim', 'dressing.nvim' } })
+  require('lazy').load({ plugins = { 'telescope.nvim' } })
   vim.ui.select(require('config.mapping_catalog'), {
     prompt = 'Plugin mappings',
     format_item = function(plugin)
