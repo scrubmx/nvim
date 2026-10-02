@@ -12,7 +12,7 @@ return {
     -- '3rd/image.nvim', -- Optional image support in preview window: See `# Preview Mode` for more information
   },
   keys = {
-    { '<Leader>1', '<Cmd>Neotree toggle reveal=true<CR>' },
+    { '<Leader>1', '<Cmd>Neotree toggle reveal=true<CR>', desc = 'Toggle Neo-tree' },
   },
   init = function()
     vim.g.neo_tree_theme = 'catppuccin-mocha'
@@ -130,7 +130,7 @@ return {
           },
         },
         follow_current_file = {
-          enabled = false,                      -- This will find and focus the file in the active buffer every time
+          enabled = false, -- This will find and focus the file in the active buffer every time
         },
         hijack_netrw_behavior = 'open_current', -- Netrw disabled, opening a directory opens neo-tree, options: 'open_current', 'open_default', 'disabled'
         use_libuv_file_watcher = true,

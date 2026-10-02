@@ -75,7 +75,7 @@ vim.opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- Configuration for nvim-ufo
 vim.opt.foldcolumn = '0' -- Using ufo provider this prevents showing weird characters on the left
-vim.opt.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
 
@@ -95,7 +95,7 @@ vim.opt.listchars = { trail = '·', tab = '➞ ', extends = '◣', precedes = '�
 vim.opt.laststatus = 3
 vim.opt.termguicolors = true
 vim.opt.background = 'dark'
-vim.opt.signcolumn = 'yes'    -- 'auto:4'
+vim.opt.signcolumn = 'yes' -- 'auto:4'
 vim.opt.isfname:append('@-@') -- Allow '-' in file names
 -- vim.opt.lazyredraw = true -- This doesn't work with noice plugin
 vim.opt.timeout = true
@@ -105,7 +105,7 @@ vim.opt.updatetime = 4000 -- If nothing is typed the swap file will be written t
 vim.opt.spelllang = { 'en_us', 'es' }
 vim.opt.spell = true
 
--- filetypes
+-- Register filetype patterns for Blade templates and zsh themes
 vim.filetype.add({
   pattern = {
     ['.*%.blade%.php'] = 'blade',
@@ -121,6 +121,14 @@ vim.g.loaded_ruby_provider = 0
 -- To use fzf in Neovim, add the following line to your init.lua
 vim.opt.rtp:append('/opt/homebrew/opt/fzf')
 
+-- Load the plugin manager, autocommands, and keymaps
 require('config.lazy')
 require('config.autocmds')
 require('config.keymaps')
+
+-- Create a user command to browse plugin keymap cheat sheets
+vim.api.nvim_create_user_command('Mappings', function()
+  require('config.mappings').pick()
+end, {
+  desc = 'Browse plugin keymap cheatsheets',
+})

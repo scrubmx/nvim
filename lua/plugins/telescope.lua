@@ -28,24 +28,29 @@ return {
     --   https://github.com/nvim-telescope/telescope-smart-history.nvim
     --
     -- TIP: `:Telescope builtin` to explore all available commands
-    { '<Leader>ff', '<Cmd>Telescope find_files<CR>' },
+    { '<Leader>ff', '<Cmd>Telescope find_files<CR>', desc = 'Find files' },
     {
       '<Leader>fa',
       function()
-        require('telescope.builtin').find_files({ follow = true, no_ignore = true, hidden = true, file_ignore_patterns = {} })
+        require('telescope.builtin').find_files({
+          follow = true,
+          no_ignore = true,
+          hidden = true,
+          file_ignore_patterns = {},
+        })
       end,
-      desc = 'Telescope find_all',
+      desc = 'Find all files',
     },
-    { '<Leader>fb', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>' },
-    { '<Leader>fi', '<Cmd>Telescope current_buffer_fuzzy_find<CR>' },
-    { '<Leader>fw', '<Cmd>Telescope lsp_workspace_symbols<CR>' },
-    { '<Leader>fy', '<Cmd>Telescope lsp_document_symbols<CR>' },
-    { '<Leader>fd', '<Cmd>Telescope diagnostics<CR>' },
-    { '<Leader>fg', '<Cmd>Telescope live_grep<CR>' },
-    { '<Leader>fc', '<Cmd>Telescope grep_string<CR>', desc = 'Telescope grep_word_under_cursor' },
-    { '<Leader>fh', '<Cmd>Telescope help_tags<CR>' },
-    { '<Leader>fr', '<Cmd>Telescope oldfiles<CR>' },
-    { '<Leader>fs', '<Cmd>Telescope spell_suggest<CR>' },
+    { '<Leader>fb', '<Cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>', desc = 'Browse files' },
+    { '<Leader>fi', '<Cmd>Telescope current_buffer_fuzzy_find<CR>', desc = 'Search current buffer' },
+    { '<Leader>fw', '<Cmd>Telescope lsp_workspace_symbols<CR>', desc = 'Workspace symbols' },
+    { '<Leader>fy', '<Cmd>Telescope lsp_document_symbols<CR>', desc = 'Document symbols' },
+    { '<Leader>fd', '<Cmd>Telescope diagnostics<CR>', desc = 'Search diagnostics' },
+    { '<Leader>fg', '<Cmd>Telescope live_grep<CR>', desc = 'Live grep' },
+    { '<Leader>fc', '<Cmd>Telescope grep_string<CR>', desc = 'Search word under cursor' },
+    { '<Leader>fh', '<Cmd>Telescope help_tags<CR>', desc = 'Search help' },
+    { '<Leader>fr', '<Cmd>Telescope oldfiles<CR>', desc = 'Recent files' },
+    { '<Leader>fs', '<Cmd>Telescope spell_suggest<CR>', desc = 'Spelling suggestions' },
     -- { '<Leader>fd', function() require('telescope.builtin').diagnostics() end, desc = 'Telescope diagnostics' },
     -- { '<Leader>fg', function() require('telescope.builtin').live_grep() end, desc = 'Telescope live_grep' },
     -- { '<Leader>fh', function() require('telescope.builtin').help_tags() end, desc = 'Telescope help_tags' },
@@ -56,14 +61,14 @@ return {
       function()
         require('telescope.builtin').buffers()
       end,
-      desc = 'Telescope buffers',
+      desc = 'Open buffers',
     },
     {
       '<Leader>fv',
       function()
         require('telescope.builtin').find_files({ cwd = vim.fn.stdpath('config') })
       end,
-      desc = 'Telescope nvim_config_files',
+      desc = 'Neovim config files',
     },
   },
   config = function()
@@ -100,18 +105,30 @@ return {
           preview_cutoff = 120,
         },
         file_ignore_patterns = {
-          '^%.DS_Store$', '/%.DS_Store$',
-          '^%.git/', '/%.git/',
-          '^%.idea/', '/%.idea/',
-          '^%.next/', '/%.next/',
-          '^%.vscode/', '/%.vscode/',
-          '^bootstrap/cache/', '/bootstrap/cache/',
-          '^node_modules/', '/node_modules/',
-          '^public/css/', '/public/css/',
-          '^public/js/', '/public/js/',
-          '^storage/app/', '/storage/app/',
-          '^storage/debugbar/', '/storage/debugbar/',
-          '^storage/framework/', '/storage/framework/',
+          '^%.DS_Store$',
+          '/%.DS_Store$',
+          '^%.git/',
+          '/%.git/',
+          '^%.idea/',
+          '/%.idea/',
+          '^%.next/',
+          '/%.next/',
+          '^%.vscode/',
+          '/%.vscode/',
+          '^bootstrap/cache/',
+          '/bootstrap/cache/',
+          '^node_modules/',
+          '/node_modules/',
+          '^public/css/',
+          '/public/css/',
+          '^public/js/',
+          '/public/js/',
+          '^storage/app/',
+          '/storage/app/',
+          '^storage/debugbar/',
+          '/storage/debugbar/',
+          '^storage/framework/',
+          '/storage/framework/',
         },
         -- https://github.com/nvim-telescope/telescope-file-browser.nvim#mappings
         mappings = {
