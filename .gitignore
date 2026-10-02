@@ -1,5 +1,6 @@
-/undodir
-lua/scratchs/*
+*.log
 .DS_Store
 .luarc.json
-*.log
+lazy-lock.json
+lua/scratchs/*
+undodir/
