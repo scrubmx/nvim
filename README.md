@@ -30,6 +30,72 @@ optional AI-assisted completion.
 
 The leader and local leader keys are both set to `,`.
 
+## Plugin mapping reference
+
+Run `:Mappings`, select **Mini.Surround**, **Telescope**, or **Neo-tree**, and browse
+its live mappings. Telescope includes 14 launcher bindings plus reference notes
+for the configured picker and file-browser controls. Neo-tree includes its live
+launcher and searchable source-local mappings from the resolved configuration,
+available even when the tree is closed. Source labels distinguish filesystem,
+buffer, Git-status, and fuzzy-popup bindings; changed assignments show the
+installed default action. Rows show action, key sequence,
+mode, and description. Type to filter;
+`<C-b>` returns to the plugin picker; `<M-p>` toggles the notation/defaults preview.
+Enter opens the complete table in a read-only scratch split, where `/` searches,
+`q` closes, and `g?` opens plugin help. Enter never executes the selected mapping.
+Restart Neovim after installing these configuration changes. No additional
+plugins or external tools are required.
+
+Bindings come from the current session, filtered by callback/script source or
+the plugin's Lua command. They include registered suffix mappings and relevant
+modes. Descriptions and usage placeholders live in `lua/config/mapping_catalog.lua`;
+documented defaults appear only when different. `{motion}`, `{in}`, and `{out}`
+are placeholders, not literal keys. The notes explain surrounding IDs and counts.
+The installed mini.surround version ignores the old `update_n_lines = 'sn'`
+setting, so it is flagged in the notes rather than listed as an active mapping.
+The `s` no-op prefix guard is not an action and is omitted.
+
+This reuses Telescope's built-in keymap picker. Unlike a handwritten sheet, it
+tracks registered remaps and disabled mappings. Plugin ownership is inferred
+from source, rather than a shared key prefix or description. Maps defined in a
+different file or through another plugin need their own catalog source rule;
+global and buffer-local registrations are both listed as Telescope supplies
+them. For source-local maps that do not exist until a plugin window opens, a
+catalog entry can supply a `keymaps` function returning mapping records
+(`lhs`, `mode`, `desc`, `description`, `scope`); Neo-tree uses this to resolve
+its source configuration without opening a tree. The picker is a reference,
+not a conflict detector. Recheck
+the small annotation catalog when upgrading a plugin's documented behavior.
+
+To add a second plugin, append this entry to the catalog's returned list:
+
+```lua
+{
+  name = 'mini.bufremove',
+  plugin = 'mini.bufremove',
+  source = '/lua/plugins/mini.lua', -- its two callbacks are defined in this config file
+  help = 'mini.bufremove',
+  notes = { 'n = Normal mode. <leader> is comma in this configuration.' },
+},
+```
+
+That entry uses the live mapping descriptions; `actions` is optional. For a
+plugin that needs usage annotations, key `actions` by its registered description:
+`actions = { ['Action description'] = { default = 'xy', usage = '{input}', description = 'Explanation' } }`.
+Use a narrow `source` path (callback or Vimscript origin), and optionally `rhs`
+for command-based mappings. A plugin with mappings spread across files may
+require a broader source path. The display and picker do not need changes.
+
+Existing alternatives considered: [cheatsheet.nvim](https://github.com/sudormrfbin/cheatsheet.nvim)
+provides static searchable entries; [alexcloudstar/cheatsheet.nvim](https://github.com/alexcloudstar/cheatsheet.nvim)
+provides category-first browsing but excludes plugin-defined mappings from its
+automatic sync check; [cheat](https://github.com/cheat/cheat) manages terminal
+cheatsheets separately from Neovim's live configuration. The existing Telescope
+integration fits this workflow without installing another tool.
+
+Run `make test` from this repository to verify with the normal configuration and
+installed plugins. The command exits with a nonzero status if a test fails.
+
 ## Requirements
 
 ### Required
