@@ -93,6 +93,8 @@ automatic sync check; [cheat](https://github.com/cheat/cheat) manages terminal
 cheatsheets separately from Neovim's live configuration. The existing Telescope
 integration fits this workflow without installing another tool.
 
+#### Testing
+
 Run `make test` from this repository to verify with the normal configuration and
 installed plugins. The command exits with a nonzero status if a test fails.
 
